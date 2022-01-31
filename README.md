@@ -2,7 +2,7 @@
 
 # SwiftPublicSuffixList
 
-This library is a Swift implementation of the necessary code to check a domain name against the [Public Suffix List](https://publicsuffix.org) list and identify if the domains should be restricted.
+This library is a Swift implementation of the necessary code to check a domain name against the [Public Suffix List](https://publicsuffix.org) and identify if the domains should be restricted.
 
 Restricted domains should not be allowed to set cookies, directly host websites or send/receive emails.
 
