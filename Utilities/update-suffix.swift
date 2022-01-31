@@ -45,7 +45,7 @@ guard let publicSuffixSwiftData: Data = publicSuffixSwiftString.data(using: .utf
 let generatedSwiftFileUrl = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
     .deletingLastPathComponent() // get out of the Utilities folder
     .appendingPathComponent("Sources")
-    .appendingPathComponent("SwiftEmailValidator")
+    .appendingPathComponent("SwiftPublicSuffixList")
     .appendingPathComponent("PublicSuffixRulesRegistry.swift")
 
 do {
