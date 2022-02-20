@@ -24,7 +24,24 @@ You can run the Utilities/update-suffix.swift from the command line to download 
     # swift update-suffix.swift
 
 ### From Swift at runtime:
-TODO!
+In order to update the PublicSuffixList at runtime, you will want to make sure you use the instance of PublicSuffixList rather than the static functions. You can do
+this using:
+
+    import SwiftPublicSuffixList
+    
+    let pathToLocalRegistry = FileManager.default
+        .urls(for: .cachesDirectory, in: .userDomainMask).first!
+        .appendingPathComponent("public-suffix-list.json")
+
+    let publicSuffixList = await PublicSuffixList.list(from: .filePath(pathToLocalRegistry))
+
+To request a registry update:
+
+    let success: Bool = await publicSuffixList.updateUsingOnlineRegistry()
+
+To save the updated registry:
+
+    try publicSuffixList.export(to: pathToLocalRegistry)
 
 ## Classes & Usage
 
@@ -39,11 +56,32 @@ Using the default built-in Public Suffix List rules
     if let match = PublicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
     }
+    
+    // or using a PublicSuffixList instance…    
+    let publicSuffixList = PublicSuffixList()
+    if let match = publicSuffixList.match("yahoo.com") {
+        // match.isRestricted == false
+    }
+    
+    // or the async equivalent
+    let publicSuffixList = await PublicSuffixList.list()
+    if let match = await publicSuffixList.match("yahoo.com") {
+        // match.isRestricted == false
+    }
 
 Using a single custom validation rule, requiring domains to
 end with .com but allow any domain within the .com TLD
 
     if let match = PublicSuffixList.match("yahoo.com", rules: [["com"]]) {
+        // match.isRestricted == false
+        // match.prevailingRule == ["com"]
+        // match.matchedRules == [["com"]]
+    }
+    
+    // or using a PublicSuffixList instance…
+    
+    let publicSuffixList = PublicSuffixList(source: .rules([["com"]]))
+    if let match = publicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
         // match.prevailingRule == ["com"]
         // match.matchedRules == [["com"]]
@@ -82,6 +120,13 @@ Defining an exception to a more generic rule
 Convenience function that will attempt to retrieve a match then return the value of !match.isRestricted.  Will return false if no match was found.
 
     if PublicSuffixList.isUnrestricted("yahoo.com") {
+        // true! yahoo.com is unrestricted by default
+    }
+    
+    // or using PublicSuffixList instance…
+    
+    let publicSuffixList = PublicSuffixList()
+    if publicSuffixList.isUnrestricted("yahoo.com") {
         // true! yahoo.com is unrestricted by default
     }
 

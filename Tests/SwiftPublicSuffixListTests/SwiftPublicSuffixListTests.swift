@@ -71,6 +71,32 @@ class SwiftPublicSuffixListTests: XCTestCase {
         invalidSyntaxHosts.forEach { XCTAssertFalse(PublicSuffixList.isUnrestricted($0), "Expected \($0) to be an invalid email host syntax") }
     }
     
+    func testValidSyntaxHostsInstance() {
+        let testDoneExpectation = XCTestExpectation()
+        DispatchQueue.global().async {
+            let list = PublicSuffixList(source: .embedded)
+            self.validSyntaxHosts.forEach { XCTAssertTrue(list.isUnrestricted($0), "Expected \($0) to be a valid email host syntax") }
+            testDoneExpectation.fulfill()
+        }
+        wait(for: [testDoneExpectation], timeout: 2.0)
+    }
+    
+    func testValidSyntaxHostsAsyncInstance() async {
+        let list = await PublicSuffixList.list()
+        for validHost in validSyntaxHosts {
+            let unrestrictedAsync: Bool = await list.isUnrestricted(validHost)
+            XCTAssertTrue(unrestrictedAsync, "Expected \(validHost) to be a valid email host syntax")
+        }
+    }
+    
+    func testInvalidSyntaxHostsAsyncInstance() async {
+        let list = await PublicSuffixList.list()
+        for invalidHost in invalidSyntaxHosts {
+            let unrestricted: Bool = await list.isUnrestricted(invalidHost)
+            XCTAssertFalse(unrestricted, "Expected \(invalidHost) to be an invalid email host syntax")
+        }
+    }
+    
     func testSimpleSuffix() {
         XCTAssertFalse(PublicSuffixList.isUnrestricted("com", rules: [["com"]]))
         XCTAssertTrue(PublicSuffixList.isUnrestricted("yahoo.com", rules: [["com"]] ))
