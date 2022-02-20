@@ -18,7 +18,8 @@ public class PublicSuffixListOnlineRegistryFetcher {
     /// - Returns: Public Suffix Rules retrieved or nil if the query/decoding failed
     public static func fetch(
         logger: @escaping PublicSuffixList.Logger = PublicSuffixList.logger,
-        cachePolicy: URLRequest.CachePolicy?
+        cachePolicy: URLRequest.CachePolicy?,
+        urlRequestHandler: @escaping PublicSuffixList.URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
     ) async -> [[String]]? {
         
         await withCheckedContinuation({ continuation in
@@ -38,7 +39,8 @@ public class PublicSuffixListOnlineRegistryFetcher {
     ///
     public static func fetch(
         logger: @escaping PublicSuffixList.Logger = PublicSuffixList.logger,
-        cachePolicy cachePolicyOrNil: URLRequest.CachePolicy?
+        cachePolicy cachePolicyOrNil: URLRequest.CachePolicy?,
+        urlRequestHandler: PublicSuffixList.URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
     ) -> [[String]]? {
         
         precondition(!Thread.isMainThread)
@@ -52,8 +54,7 @@ public class PublicSuffixListOnlineRegistryFetcher {
         if let cachePolicy = cachePolicyOrNil {
             request.cachePolicy = cachePolicy
         }
-        URLSession.shared.dataTask(with: request) { dataOrNil, urlResponseOrNil, errorOrNil in
-            
+        urlRequestHandler(request) { dataOrNil, urlResponseOrNil, errorOrNil in
             guard let response = urlResponseOrNil,
                   let data = dataOrNil
             else {
@@ -62,7 +63,7 @@ public class PublicSuffixListOnlineRegistryFetcher {
             }
             onlineRules = Self.rules(data: data, response: response, logger: logger)
             dispatchGroup.leave()
-        }.resume()
+        }
         dispatchGroup.wait()
         return onlineRules
     }

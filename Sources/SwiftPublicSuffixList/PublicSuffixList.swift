@@ -14,8 +14,14 @@ import Foundation
 
 final public class PublicSuffixList {
     
+    public typealias URLRequestCompletion = (Data?, URLResponse?, Error?) -> Void
+    public typealias URLRequestHandler = (URLRequest, @escaping URLRequestCompletion) -> Void
     public typealias Logger = (String) -> Void
     public static var logger: Logger = { print($0) }
+    
+    public static let defaultUrlRequestHandler: URLRequestHandler = { request, completion in
+        URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+    }
     
     /// Specify the data soure to use to initialize the PublicSuffixList
     ///
@@ -68,7 +74,7 @@ final public class PublicSuffixList {
         }
     }
     private var unsafeRules: [[String]]
-    
+    private let urlRequestHandler: URLRequestHandler
     private let accessLock: NSLock
     private var updateThread: Thread?
     
@@ -76,23 +82,35 @@ final public class PublicSuffixList {
     /// - Parameter source: Source to use
     /// - Returns: PublicSuffixList instance
     @available(macOS 10.15.0, *)
-    public static func list(from source: InitializerSource = .embedded) async -> PublicSuffixList {
+    public static func list(
+        from source: InitializerSource = .embedded,
+        urlRequestHandler: @escaping URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
+    ) async -> PublicSuffixList {
         await withCheckedContinuation({ continuation in
-            let list = PublicSuffixList(source: source)
+            let list = PublicSuffixList(source: source, urlRequestHandler: urlRequestHandler)
             continuation.resume(returning: list)
         })
     }
     
     /// Create a new instane of PublicSuffixList using the specified source
     /// - Parameter source: Except for .rules() source, all other sources may block the current thread temporarily and will not be allowed to run on the main thread (for your own good)
-    init(source: InitializerSource = .embedded) {
+    init(source: InitializerSource = .embedded,
+         urlRequestHandler: @escaping URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
+    ) {
         switch source {
         case .rules(let customRules):
             self.unsafeRules = customRules
             
         case .onlineRegistry(let cachePolicy):
             precondition(!Thread.isMainThread, "\(Self.self) May not be initialized on main thread due to long loading times")
-            self.unsafeRules = PublicSuffixListOnlineRegistryFetcher.fetch(logger: Self.logger, cachePolicy: cachePolicy) ?? PublicSuffixRulesRegistry.rules
+            if let fetchedRules = PublicSuffixListOnlineRegistryFetcher.fetch(
+                logger: Self.logger,
+                cachePolicy: cachePolicy,
+                urlRequestHandler: urlRequestHandler) {
+                self.unsafeRules = fetchedRules
+            } else {
+                self.unsafeRules = PublicSuffixRulesRegistry.rules
+            }
 
         case .filePath(let path):
             precondition(!Thread.isMainThread, "\(Self.self) May not be initialized on main thread due to long loading times")
@@ -103,6 +121,7 @@ final public class PublicSuffixList {
             self.unsafeRules = PublicSuffixRulesRegistry.rules
         }
         self.accessLock = NSLock()
+        self.urlRequestHandler = urlRequestHandler
     }
     
     /// Attempt to decode [[String]] JSON file from the file path provided
@@ -142,9 +161,10 @@ final public class PublicSuffixList {
         guard updateThread == nil else {
             return
         }
+        let requestHandler = self.urlRequestHandler
         updateThread = Thread { [weak self] in
             var success: Bool = false
-            if let onlineRules = PublicSuffixListOnlineRegistryFetcher.fetch(logger: Self.logger, cachePolicy: cachePolicy) {
+            if let onlineRules = PublicSuffixListOnlineRegistryFetcher.fetch(logger: Self.logger, cachePolicy: cachePolicy, urlRequestHandler: requestHandler) {
                 self?.rules = onlineRules
                 Self.logger("\(Self.self) Public Suffix List updated")
                 success = true
