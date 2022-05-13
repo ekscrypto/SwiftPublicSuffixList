@@ -10,7 +10,7 @@ import Foundation
 
 public class PublicSuffixListOnlineRegistryFetcher {
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     /// Retrieves the most up-to-date Public Suffix List from https://publicsuffix.org/list/public_suffix_list.dat
     /// - Parameters:
     ///   - logger: Logger to use

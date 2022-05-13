@@ -81,7 +81,7 @@ final public class PublicSuffixList {
     /// Asynchronously generate a PublicSuffixList instance initialized from the source specified
     /// - Parameter source: Source to use
     /// - Returns: PublicSuffixList instance
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     public static func list(
         from source: InitializerSource = .embedded,
         urlRequestHandler: @escaping URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
@@ -138,7 +138,7 @@ final public class PublicSuffixList {
         }
     }
     
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     /// Attempts to update the Public Suffix Rules using the official list at https://publicsuffix.org/list/public_suffix_list.dat
     /// - Parameter cachePolicy: URLRequest.CachePolicy to use, or nil to use URLSession default
     /// - Returns: True if succeeded, false otherwise
@@ -198,7 +198,7 @@ final public class PublicSuffixList {
         Self.isUnrestricted(candidate, rules: self.rules)
     }
 
-    @available(macOS 10.15.0, *)
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     /// Validate the candidate string follows expected RFC5321 Domain syntax
     /// - Parameters:
     ///   - candidate: String to validate
