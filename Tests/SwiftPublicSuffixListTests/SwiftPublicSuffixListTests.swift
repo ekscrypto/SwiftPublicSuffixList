@@ -81,6 +81,7 @@ class SwiftPublicSuffixListTests: XCTestCase {
         wait(for: [testDoneExpectation], timeout: 2.0)
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testValidSyntaxHostsAsyncInstance() async {
         let list = await PublicSuffixList.list()
         for validHost in validSyntaxHosts {
@@ -89,6 +90,7 @@ class SwiftPublicSuffixListTests: XCTestCase {
         }
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testInvalidSyntaxHostsAsyncInstance() async {
         let list = await PublicSuffixList.list()
         for invalidHost in invalidSyntaxHosts {

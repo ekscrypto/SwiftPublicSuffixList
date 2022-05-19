@@ -59,6 +59,7 @@ final class LoadSaveUpdateTests: XCTestCase {
         wait(for: [testDoneExpectation], timeout: 2.0)
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testLoadFromNonExistentFile_expectsEmbedded() async {
         let nonExistentFilePath: String = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
         let list = await PublicSuffixList.list(from: .filePath(nonExistentFilePath), urlRequestHandler: { _, _ in
@@ -87,11 +88,13 @@ final class LoadSaveUpdateTests: XCTestCase {
         wait(for: [testDoneExpectation], timeout: 2.0)
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testLoadFromEmbeddedAsync() async {
         let list = await PublicSuffixList.list(from: .embedded)
         XCTAssertEqual(list.rules, PublicSuffixRulesRegistry.rules)
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testUpdate_querySuccess_expectsRulesUpdated() async {
         let onlineRegistryData: Data = """
         updated
@@ -111,6 +114,7 @@ final class LoadSaveUpdateTests: XCTestCase {
         XCTAssertEqual(list.rules, [["updated"],["public","suffix","list"]])
     }
     
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testLoadOnlineRegistry_querySuccess_expectsOnlineRules() async {
         let onlineRegistryData: Data = """
         loaded-from-web
@@ -127,6 +131,7 @@ final class LoadSaveUpdateTests: XCTestCase {
         XCTAssertEqual(list.rules, [["loaded-from-web"],["public","suffix","list"]])
     }
 
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testLoadOnlineRegistry_query500Failed_expectsEmbedded() async {
         let onlineRegistryData: Data = """
         loaded-from-web
@@ -143,6 +148,7 @@ final class LoadSaveUpdateTests: XCTestCase {
         XCTAssertEqual(list.rules, PublicSuffixRulesRegistry.rules)
     }
  
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     func testUpdate_query500Failed_expectsRulesUpdated() async {
         let onlineRegistryData: Data = """
         should-not-be-processed

@@ -19,7 +19,10 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftPublicSuffixList",
-            dependencies: []),
+            dependencies: [],
+            resources: [
+                .process("registry.json")
+            ]),
         .testTarget(
             name: "SwiftPublicSuffixListTests",
             dependencies: ["SwiftPublicSuffixList"]),
