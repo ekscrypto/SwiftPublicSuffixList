@@ -98,7 +98,7 @@ end with .com but allowing any subdomain
     }
 
     if let match = PublicSuffixList.match("www.yahoo.com", [["*","com"]]) {
-       // While yahoo.co matches \*.com and is restricted, there are no
+       // While yahoo.com matches \*.com and is restricted, there are no
        // restrictions for subdomains such as www.yahoo.com
        // match.isRestricted == false
        // match.prevailingRule == ["*","com"]
