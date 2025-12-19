@@ -1,0 +1,42 @@
+name: Update Public Suffix List
+
+on:
+  schedule:
+    # Run daily at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-suffix-list:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run update script
+        run: |
+          cd Utilities
+          swift update-suffix.swift
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet Sources/SwiftPublicSuffixList/registry.json; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in registry.json"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in registry.json"
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Sources/SwiftPublicSuffixList/registry.json
+          git commit -m "Update public suffix list $(date -u +%Y-%m-%d)"
+          git push
