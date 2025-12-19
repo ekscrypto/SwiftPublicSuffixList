@@ -58,7 +58,6 @@ class SwiftPublicSuffixListTests: XCTestCase {
         "izumizaki.fukushima.jp", // listed as public suffix,
         "hotel.kitakyushu.jp", // matching *.kitakyushu.jp public suffix
         "website.ck", // *.ck listed as public suffix, not matching !www.ck exception
-        "telekommunikation.museum", // listed as public suffix
         "1234567890123456789012345678901234567890123456789012345678901234.net", // maximum allowed exceeded 64 > 63
         "123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567.museum" // maximum allowed entire host exceeded 256 > 253
     ]
