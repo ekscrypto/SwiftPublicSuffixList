@@ -11,35 +11,90 @@ import Foundation
 import FoundationNetworking
 #endif
 
+/// Fetches the latest Public Suffix List rules from the official online registry.
+///
+/// This class downloads and parses the Public Suffix List from
+/// `https://publicsuffix.org/list/public_suffix_list.dat`.
+///
+/// ## Overview
+///
+/// Use this class to fetch the most up-to-date rules directly from the source.
+/// The fetcher handles downloading, parsing, and converting the text format
+/// to the internal rule representation.
+///
+/// ## Usage
+///
+/// ```swift
+/// // Async fetch
+/// if let rules = await PublicSuffixListOnlineRegistryFetcher.fetch(cachePolicy: nil) {
+///     print("Fetched \(rules.count) rules")
+/// }
+///
+/// // Synchronous fetch (must be called from background thread)
+/// DispatchQueue.global().async {
+///     if let rules = PublicSuffixListOnlineRegistryFetcher.fetch(cachePolicy: .reloadIgnoringLocalCacheData) {
+///         print("Fetched \(rules.count) rules")
+///     }
+/// }
+/// ```
+///
+/// ## Thread Safety
+///
+/// The synchronous ``fetch(logger:cachePolicy:urlRequestHandler:)-5f3dv`` method blocks the calling thread
+/// and must not be called from the main thread. Use the async variant when possible.
 public class PublicSuffixListOnlineRegistryFetcher {
-    
-    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
-    /// Retrieves the most up-to-date Public Suffix List from https://publicsuffix.org/list/public_suffix_list.dat
+
+    /// Asynchronously fetches the latest Public Suffix List rules.
+    ///
+    /// Downloads and parses rules from `https://publicsuffix.org/list/public_suffix_list.dat`.
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// if let rules = await PublicSuffixListOnlineRegistryFetcher.fetch(cachePolicy: nil) {
+    ///     // Use the fetched rules
+    /// }
+    /// ```
+    ///
     /// - Parameters:
-    ///   - logger: Logger to use
-    ///   - cachePolicy: URLRequest.CachePolicy to use, leave nil for URLSession default
-    /// - Returns: Public Suffix Rules retrieved or nil if the query/decoding failed
+    ///   - logger: A function for logging diagnostic messages. Defaults to ``PublicSuffixList/logger``.
+    ///   - cachePolicy: The cache policy for the URL request, or `nil` for default behavior.
+    ///   - urlRequestHandler: The handler for performing URL requests. Defaults to ``PublicSuffixList/defaultUrlRequestHandler``.
+    /// - Returns: The fetched rules, or `nil` if the fetch or parsing failed.
+    @available(macOS 10.15.0, iOS 13, tvOS 13, *)
     public static func fetch(
         logger: @escaping PublicSuffixList.Logger = PublicSuffixList.logger,
         cachePolicy: URLRequest.CachePolicy?,
         urlRequestHandler: @escaping PublicSuffixList.URLRequestHandler = PublicSuffixList.defaultUrlRequestHandler
     ) async -> [[String]]? {
-        
+
         await withCheckedContinuation({ continuation in
             continuation.resume(returning: fetch(logger: logger, cachePolicy: cachePolicy))
         })
     }
-    
-    /// Retrieves the most up-to-date Public Suffix List from https://publicsuffix.org/list/public_suffix_list.dat
+
+    /// Synchronously fetches the latest Public Suffix List rules.
+    ///
+    /// Downloads and parses rules from `https://publicsuffix.org/list/public_suffix_list.dat`.
+    ///
+    /// - Important: This method blocks the calling thread and must not be called from the main thread.
+    ///   Use the async variant ``fetch(logger:cachePolicy:urlRequestHandler:)-9w6ug`` when possible.
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// DispatchQueue.global().async {
+    ///     if let rules = PublicSuffixListOnlineRegistryFetcher.fetch(cachePolicy: nil) {
+    ///         // Use the fetched rules
+    ///     }
+    /// }
+    /// ```
     ///
     /// - Parameters:
-    ///   - logger: Logger to use
-    ///   - cachePolicy: URLRequest.CachePolicy to use, leave nil for URLSession default
-    /// - Returns: Decoded rules or nil if the online query failed
-    ///
-    /// WARNING: Will block whichever thread this is dispatched on.  Not allowed to be called from main thread. Consider using the async
-    /// version
-    ///
+    ///   - logger: A function for logging diagnostic messages. Defaults to ``PublicSuffixList/logger``.
+    ///   - cachePolicy: The cache policy for the URL request, or `nil` for default behavior.
+    ///   - urlRequestHandler: The handler for performing URL requests. Defaults to ``PublicSuffixList/defaultUrlRequestHandler``.
+    /// - Returns: The fetched rules, or `nil` if the fetch or parsing failed.
     public static func fetch(
         logger: @escaping PublicSuffixList.Logger = PublicSuffixList.logger,
         cachePolicy cachePolicyOrNil: URLRequest.CachePolicy?,

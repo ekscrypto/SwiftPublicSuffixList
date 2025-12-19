@@ -9,12 +9,19 @@ on:
 jobs:
   update-suffix-list:
     runs-on: macos-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch all history for tags
+
+      - name: Save current registry for comparison
+        run: |
+          cp Sources/SwiftPublicSuffixList/registry.json /tmp/registry-old.json
 
       - name: Run update script
         run: |
@@ -32,17 +39,167 @@ jobs:
             echo "Changes detected in registry.json"
           fi
 
+      - name: Analyze suffix list changes
+        if: steps.changes.outputs.has_changes == 'true'
+        id: analyze
+        run: |
+          # Extract domain lists from JSON (each entry is an array like ["sub","domain","tld"])
+          # Convert to dotted format for readability
+          jq -r '.[] | reverse | join(".")' /tmp/registry-old.json | sort > /tmp/old-domains.txt
+          jq -r '.[] | reverse | join(".")' Sources/SwiftPublicSuffixList/registry.json | sort > /tmp/new-domains.txt
+
+          # Find additions and removals
+          comm -13 /tmp/old-domains.txt /tmp/new-domains.txt > /tmp/added.txt
+          comm -23 /tmp/old-domains.txt /tmp/new-domains.txt > /tmp/removed.txt
+
+          # Count changes
+          ADDED_COUNT=$(wc -l < /tmp/added.txt | tr -d ' ')
+          REMOVED_COUNT=$(wc -l < /tmp/removed.txt | tr -d ' ')
+
+          echo "added_count=$ADDED_COUNT" >> $GITHUB_OUTPUT
+          echo "removed_count=$REMOVED_COUNT" >> $GITHUB_OUTPUT
+
+          # Create summary for changelog (limit to first 20 of each to avoid huge entries)
+          echo "### Summary" > /tmp/changelog-entry.txt
+          echo "" >> /tmp/changelog-entry.txt
+          echo "- Added $ADDED_COUNT suffix(es)" >> /tmp/changelog-entry.txt
+          echo "- Removed $REMOVED_COUNT suffix(es)" >> /tmp/changelog-entry.txt
+
+          if [ "$ADDED_COUNT" -gt 0 ]; then
+            echo "" >> /tmp/changelog-entry.txt
+            echo "### Added Suffixes" >> /tmp/changelog-entry.txt
+            echo "" >> /tmp/changelog-entry.txt
+            if [ "$ADDED_COUNT" -le 20 ]; then
+              while IFS= read -r line; do echo "- \`$line\`" >> /tmp/changelog-entry.txt; done < /tmp/added.txt
+            else
+              head -20 /tmp/added.txt | while IFS= read -r line; do echo "- \`$line\`" >> /tmp/changelog-entry.txt; done
+              echo "- ... and $((ADDED_COUNT - 20)) more" >> /tmp/changelog-entry.txt
+            fi
+          fi
+
+          if [ "$REMOVED_COUNT" -gt 0 ]; then
+            echo "" >> /tmp/changelog-entry.txt
+            echo "### Removed Suffixes" >> /tmp/changelog-entry.txt
+            echo "" >> /tmp/changelog-entry.txt
+            if [ "$REMOVED_COUNT" -le 20 ]; then
+              while IFS= read -r line; do echo "- \`$line\`" >> /tmp/changelog-entry.txt; done < /tmp/removed.txt
+            else
+              head -20 /tmp/removed.txt | while IFS= read -r line; do echo "- \`$line\`" >> /tmp/changelog-entry.txt; done
+              echo "- ... and $((REMOVED_COUNT - 20)) more" >> /tmp/changelog-entry.txt
+            fi
+          fi
+
+          cat /tmp/changelog-entry.txt
+
+      - name: Get next version
+        if: steps.changes.outputs.has_changes == 'true'
+        id: version
+        run: |
+          # Get the latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.1.6")
+          echo "Latest tag: $LATEST_TAG"
+
+          # Parse version components (assumes semver like 1.2.3)
+          MAJOR=$(echo $LATEST_TAG | cut -d. -f1)
+          MINOR=$(echo $LATEST_TAG | cut -d. -f2)
+          PATCH=$(echo $LATEST_TAG | cut -d. -f3)
+
+          # Increment patch version
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
+
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update CHANGELOG.md
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          NEW_VERSION="${{ steps.version.outputs.new_version }}"
+          PREV_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.1.6")
+
+          # Create the new changelog entry
+          cat > /tmp/new-entry.txt << 'HEADER'
+          ## [NEW_VERSION] - DATE
+
+          ### Changed
+          - Updated Public Suffix List
+
+          HEADER
+
+          # Replace placeholders
+          sed -i '' "s/NEW_VERSION/$NEW_VERSION/g" /tmp/new-entry.txt
+          sed -i '' "s/DATE/$TODAY/g" /tmp/new-entry.txt
+
+          # Append the detailed changes
+          cat /tmp/changelog-entry.txt >> /tmp/new-entry.txt
+          echo "" >> /tmp/new-entry.txt
+
+          # Insert the new entry after "## [Unreleased]" section
+          # Find line number of first version entry (## [x.y.z])
+          LINE_NUM=$(grep -n "^## \[" CHANGELOG.md | grep -v "Unreleased" | head -1 | cut -d: -f1)
+
+          if [ -n "$LINE_NUM" ]; then
+            # Insert before the first version entry
+            head -$((LINE_NUM - 1)) CHANGELOG.md > /tmp/changelog-new.md
+            cat /tmp/new-entry.txt >> /tmp/changelog-new.md
+            tail -n +$LINE_NUM CHANGELOG.md >> /tmp/changelog-new.md
+            mv /tmp/changelog-new.md CHANGELOG.md
+          fi
+
+          # Update the comparison links at the bottom
+          # Add new version link
+          REPO_URL="https://github.com/ekscrypto/SwiftPublicSuffixList"
+
+          # Update [Unreleased] link to point to new version
+          sed -i '' "s|\[Unreleased\]: .*/compare/.*\.\.\.HEAD|[Unreleased]: $REPO_URL/compare/$NEW_VERSION...HEAD|" CHANGELOG.md
+
+          # Add the new version comparison link after [Unreleased]
+          sed -i '' "/^\[Unreleased\]:/a\\
+          [$NEW_VERSION]: $REPO_URL/compare/$PREV_VERSION...$NEW_VERSION
+          " CHANGELOG.md
+
       - name: Update README timestamp
         if: steps.changes.outputs.has_changes == 'true'
         run: |
           TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
           sed -i '' "s/LAST UPDATED: .*/LAST UPDATED: $TIMESTAMP/" README.md
 
-      - name: Commit and push changes
+      - name: Commit changes
         if: steps.changes.outputs.has_changes == 'true'
         run: |
+          NEW_VERSION="${{ steps.version.outputs.new_version }}"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Sources/SwiftPublicSuffixList/registry.json README.md
-          git commit -m "Update public suffix list $(date -u +%Y-%m-%d)"
-          git push
+          git add Sources/SwiftPublicSuffixList/registry.json README.md CHANGELOG.md
+          git commit -m "Update public suffix list - v$NEW_VERSION"
+
+      - name: Create and push tag
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.new_version }}"
+
+          git tag "$NEW_VERSION"
+          git push origin main
+          git push origin "$NEW_VERSION"
+
+      - name: Create GitHub Release
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.new_version }}
+          name: v${{ steps.version.outputs.new_version }}
+          body: |
+            ## Public Suffix List Update
+
+            This release updates the embedded Public Suffix List to the latest version from [publicsuffix.org](https://publicsuffix.org).
+
+            - Added ${{ steps.analyze.outputs.added_count }} suffix(es)
+            - Removed ${{ steps.analyze.outputs.removed_count }} suffix(es)
+
+            See [CHANGELOG.md](https://github.com/ekscrypto/SwiftPublicSuffixList/blob/main/CHANGELOG.md) for details.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

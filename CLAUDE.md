@@ -46,3 +46,32 @@ macOS 10.12+, iOS 11+, tvOS 11+. Uses `#if canImport(FoundationNetworking)` for 
 ### Updating the Registry
 
 The embedded `registry.json` can become outdated. Run `Utilities/update-suffix.swift` to download the latest list and regenerate the JSON file.
+
+## Changelog
+
+The project maintains a changelog (`CHANGELOG.md`). The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+When making changes, update the `[Unreleased]` section with:
+- **Added** for new features
+- **Changed** for changes in existing functionality
+- **Deprecated** for soon-to-be removed features
+- **Removed** for now removed features
+- **Fixed** for any bug fixes
+- **Security** for vulnerability fixes
+
+## Automated Nightly Updates
+
+A GitHub Actions workflow (`.github/workflows/update-suffix-list.yml`) runs daily at 2:00 AM UTC to update the Public Suffix List. The workflow:
+
+1. Downloads the latest list from publicsuffix.org
+2. Compares with the current embedded list
+3. If changes are detected:
+   - Updates `registry.json` with new rules
+   - Updates `CHANGELOG.md` with added/removed suffixes
+   - Updates `README.md` timestamp
+   - Increments the patch version (e.g., 1.1.6 → 1.1.7)
+   - Commits all changes
+   - Creates a new git tag
+   - Creates a GitHub release
+
+The workflow can also be triggered manually via the GitHub Actions UI.
