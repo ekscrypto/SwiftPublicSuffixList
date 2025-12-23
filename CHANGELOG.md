@@ -10,6 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.10] - 2025-12-23
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `kg.ae`
+- `sk.org`
+- `to.nett`
+
 ## [1.1.9] - 2025-12-22
 
 ### Changed
@@ -114,7 +130,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.9...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.10...HEAD
+[1.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.9...1.1.10
 [1.1.9]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.8...1.1.9
 [1.1.8]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.7...1.1.8
 [1.1.6]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.5...1.1.6
