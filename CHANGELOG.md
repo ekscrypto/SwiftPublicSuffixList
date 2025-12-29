@@ -22,12 +22,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added Suffixes
 
-- `cc.ec`
-- `cc.eu`
-- `cc.gu`
-- `cc.uk`
-- `cc.us`
-- `uy.gv`
+- `ec.cc`
+- `eu.cc`
+- `gu.cc`
+- `uk.cc`
+- `us.cc`
+- `gv.uy`
 
 ## [1.1.10] - 2025-12-23
 
@@ -41,9 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added Suffixes
 
-- `kg.ae`
-- `sk.org`
-- `to.nett`
+- `ae.kg`
+- `org.sk`
+- `nett.to`
 
 ## [1.1.9] - 2025-12-22
 
@@ -57,8 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added Suffixes
 
-- `st.cn.*`
-- `work.imagine-proxy`
+- `*.cn.st`
+- `imagine-proxy.work`
 
 ## [1.1.8] - 2025-12-21
 
@@ -72,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added Suffixes
 
-- `cloud.antagonist`
+- `antagonist.cloud`
 
 ## [1.1.6] - 2022-07-12
 

@@ -45,8 +45,8 @@ jobs:
         run: |
           # Extract domain lists from JSON (each entry is an array like ["sub","domain","tld"])
           # Convert to dotted format for readability
-          jq -r '.[] | reverse | join(".")' /tmp/registry-old.json | sort > /tmp/old-domains.txt
-          jq -r '.[] | reverse | join(".")' Sources/SwiftPublicSuffixList/registry.json | sort > /tmp/new-domains.txt
+          jq -r '.[] | join(".")' /tmp/registry-old.json | sort > /tmp/old-domains.txt
+          jq -r '.[] | join(".")' Sources/SwiftPublicSuffixList/registry.json | sort > /tmp/new-domains.txt
 
           # Find additions and removals
           comm -13 /tmp/old-domains.txt /tmp/new-domains.txt > /tmp/added.txt
