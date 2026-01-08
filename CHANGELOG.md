@@ -10,6 +10,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.12] - 2026-01-08
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 17 suffix(es)
+
+### Added Suffixes
+
+- `deuxfleurs.eu`
+- `deuxfleurs.page`
+
+### Removed Suffixes
+
+- `dd-dns.de`
+- `diskstation.eu`
+- `diskstation.org`
+- `dray-dns.de`
+- `draydns.de`
+- `dyn-vpn.de`
+- `dynvpn.de`
+- `mein-vigor.de`
+- `my-vigor.de`
+- `my-wan.de`
+- `onavstack.net`
+- `perso.sn`
+- `skygearapp.com`
+- `syno-ds.de`
+- `synology-diskstation.de`
+- `synology-ds.de`
+- `translated.page`
+
 ## [1.1.11] - 2025-12-29
 
 ### Changed
@@ -149,7 +184,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.11...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.12...HEAD
+[1.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.11...1.1.12
 [1.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.10...1.1.11
 [1.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.9...1.1.10
 [1.1.9]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.8...1.1.9
