@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.13] - 2026-01-10
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.bwcloud-os-instance.de`
+
 ## [1.1.12] - 2026-01-08
 
 ### Changed
@@ -184,7 +198,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.12...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.13...HEAD
+[1.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.12...1.1.13
 [1.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.11...1.1.12
 [1.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.10...1.1.11
 [1.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.9...1.1.10
