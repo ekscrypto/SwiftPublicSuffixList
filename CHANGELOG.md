@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.15] - 2026-01-14
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `base44-sandbox.com`
+- `base44.app`
+
 ## [1.1.14] - 2026-01-11
 
 ### Changed
@@ -212,7 +227,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.14...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.15...HEAD
+[1.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.14...1.1.15
 [1.1.14]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.13...1.1.14
 [1.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.12...1.1.13
 [1.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.11...1.1.12
