@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.18] - 2026-01-25
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 6 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `corespeed.app`
+- `discourse.diy`
+- `miren.app`
+- `miren.systems`
+- `shiptoday.app`
+- `shiptoday.build`
+
 ## [1.1.17] - 2026-01-21
 
 ### Changed
@@ -256,7 +275,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.17...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.18...HEAD
+[1.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.17...1.1.18
 [1.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.16...1.1.17
 [1.1.16]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.15...1.1.16
 [1.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.14...1.1.15
