@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.19] - 2026-01-26
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `auth.cognito-idp.eusc-de-east-1.on.amazonwebservices.eu`
+- `s3-website.dualstack.us-gov-east-1.amazonaws.com`
+- `s3-website.dualstack.us-gov-west-1.amazonaws.com`
+- `transfer-webapp.ap-southeast-7.on.aws`
+- `transfer-webapp.mx-central-1.on.aws`
+
 ## [1.1.18] - 2026-01-25
 
 ### Changed
@@ -275,7 +293,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.18...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.19...HEAD
+[1.1.19]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.18...1.1.19
 [1.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.17...1.1.18
 [1.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.16...1.1.17
 [1.1.16]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.15...1.1.16
