@@ -10,6 +10,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.20] - 2026-01-30
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 18 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.aa.crm.dev`
+- `*.ab.crm.dev`
+- `*.ac.crm.dev`
+- `*.ad.crm.dev`
+- `*.ae.crm.dev`
+- `*.af.crm.dev`
+- `*.ci.crm.dev`
+- `*.pa.crm.dev`
+- `*.pb.crm.dev`
+- `*.pc.crm.dev`
+- `*.pd.crm.dev`
+- `*.pe.crm.dev`
+- `*.pf.crm.dev`
+- `keenetic.io`
+- `keenetic.link`
+- `keenetic.name`
+- `keenetic.pro`
+- `sol.site`
+
 ## [1.1.19] - 2026-01-26
 
 ### Changed
@@ -293,7 +324,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.19...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.20...HEAD
+[1.1.20]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.19...1.1.20
 [1.1.19]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.18...1.1.19
 [1.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.17...1.1.18
 [1.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.16...1.1.17
