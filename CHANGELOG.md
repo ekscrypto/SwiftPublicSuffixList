@@ -10,6 +10,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.21] - 2026-02-04
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 6 suffix(es)
+- Removed 4 suffix(es)
+
+### Added Suffixes
+
+- `blob.core.usgovcloudapi.net`
+- `file.core.usgovcloudapi.net`
+- `file.core.windows.net`
+- `usgovtrafficmanager.net`
+- `web.core.usgovcloudapi.net`
+- `web.core.windows.net`
+
+### Removed Suffixes
+
+- `*.cns.joyent.com`
+- `12chars.dev`
+- `12chars.it`
+- `12chars.pro`
+
 ## [1.1.20] - 2026-01-30
 
 ### Changed
@@ -324,7 +350,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.20...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.21...HEAD
+[1.1.21]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.20...1.1.21
 [1.1.20]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.19...1.1.20
 [1.1.19]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.18...1.1.19
 [1.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.17...1.1.18
