@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.23] - 2026-02-08
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `goo`
+
 ## [1.1.22] - 2026-02-07
 
 ### Changed
@@ -375,7 +389,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.22...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.23...HEAD
+[1.1.23]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.22...1.1.23
 [1.1.22]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.21...1.1.22
 [1.1.21]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.20...1.1.21
 [1.1.20]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.19...1.1.20
