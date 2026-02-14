@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.25] - 2026-02-14
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `eu-west-1.convex.cloud`
+- `eu-west-1.convex.site`
+- `imagine.diy`
+- `us-east-1.convex.cloud`
+- `us-east-1.convex.site`
+
 ## [1.1.24] - 2026-02-11
 
 ### Changed
@@ -404,7 +422,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.24...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.25...HEAD
+[1.1.25]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.24...1.1.25
 [1.1.24]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.23...1.1.24
 [1.1.23]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.22...1.1.23
 [1.1.22]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.21...1.1.22
