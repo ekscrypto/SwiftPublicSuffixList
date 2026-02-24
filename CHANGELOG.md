@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.29] - 2026-02-24
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.begetcdn.cloud`
+
 ## [1.1.28] - 2026-02-23
 
 ### Changed
@@ -465,7 +479,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.28...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.29...HEAD
+[1.1.29]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.28...1.1.29
 [1.1.28]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.27...1.1.28
 [1.1.27]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.26...1.1.27
 [1.1.26]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.25...1.1.26
