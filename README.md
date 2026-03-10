@@ -16,7 +16,7 @@ PublicSuffixRulesRegistry.rules soon after launching the app.  Initial loading o
 * The [Public Suffix List](https://publicsuffix.org) is updated regularly, if your application is published regularly you may be fine by simply pulling the latest version of the SwiftPublicSuffixList library.  However it is recommended to have
 your application retrieve the latest copy of the public suffix list on a somewhat regular basis.
 
-LAST UPDATED: 2026-03-07 02:55:28 UTC
+LAST UPDATED: 2026-03-10 03:01:11 UTC
 
 ### Shell Command
 You can run the Utilities/update-suffix.swift from the command line to download & process the text file containing the Public Suffix List and re-generate the PublicSuffixRulesRegistry.swift file.
