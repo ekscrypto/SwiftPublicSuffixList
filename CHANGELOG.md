@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.36] - 2026-04-03
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `payload.dev`
+- `pplx.app`
+
 ## [1.1.35] - 2026-03-19
 
 ### Changed
@@ -578,7 +593,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.35...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.36...HEAD
+[1.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.35...1.1.36
 [1.1.35]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.34...1.1.35
 [1.1.34]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.33...1.1.34
 [1.1.33]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.32...1.1.33
