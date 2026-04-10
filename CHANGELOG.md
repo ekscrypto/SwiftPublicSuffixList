@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.38] - 2026-04-10
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `pagexl.com`
+
 ## [1.1.37] - 2026-04-08
 
 ### Changed
@@ -609,7 +623,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.37...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...HEAD
+[1.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.37...1.1.38
 [1.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.36...1.1.37
 [1.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.35...1.1.36
 [1.1.35]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.34...1.1.35
