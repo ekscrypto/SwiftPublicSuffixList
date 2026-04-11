@@ -10,6 +10,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.39] - 2026-04-11
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 37 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `aberdeen.wa.us`
+- `bainbridge-isl.wa.us`
+- `bellevue.wa.us`
+- `bremerton.wa.us`
+- `centralia.wa.us`
+- `chehalis.wa.us`
+- `deployagent.com`
+- `elastic.k2.cloud`
+- `forks.wa.us`
+- `gig-harbor.wa.us`
+- `hoquiam.wa.us`
+- `keyport.wa.us`
+- `kingston.wa.us`
+- `lb.ru-msk.k2.cloud`
+- `lb.ru-spb.k2.cloud`
+- `olympia.wa.us`
+- `port-angeles.wa.us`
+- `port-ludlow.wa.us`
+- `port-orchard.wa.us`
+- `port-townsend.wa.us`
+- ... and 17 more
+
 ## [1.1.38] - 2026-04-10
 
 ### Changed
@@ -623,7 +657,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.39...HEAD
+[1.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...1.1.39
 [1.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.37...1.1.38
 [1.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.36...1.1.37
 [1.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.35...1.1.36
