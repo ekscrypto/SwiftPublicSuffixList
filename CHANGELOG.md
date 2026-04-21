@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Comprehensive DocC documentation for all public APIs
 
+## [1.1.40] - 2026-04-21
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `claude.app`
+
+### Removed Suffixes
+
+- `cloudapps.digital`
+- `london.cloudapps.digital`
+
 ## [1.1.39] - 2026-04-11
 
 ### Changed
@@ -657,7 +676,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.39...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.40...HEAD
+[1.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.39...1.1.40
 [1.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...1.1.39
 [1.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.37...1.1.38
 [1.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.36...1.1.37
