@@ -25,8 +25,30 @@ jobs:
 
       - name: Run update script
         run: |
+          set -e
           cd Utilities
           swift update-suffix.swift
+
+      - name: Validate regenerated trie
+        run: |
+          set -e
+          TRIE=Sources/SwiftPublicSuffixList/registry.trie
+          # Magic header: "PSLT" (0x50 0x53 0x4C 0x54)
+          MAGIC=$(head -c 4 "$TRIE" | xxd -p)
+          if [ "$MAGIC" != "50534c54" ]; then
+            echo "ERROR: $TRIE does not start with PSLT magic (got $MAGIC)"
+            exit 1
+          fi
+          # Sanity size: the real list is ~150 KB; anything under 10 KB means something went wrong.
+          SIZE=$(stat -f%z "$TRIE" 2>/dev/null || stat -c%s "$TRIE")
+          if [ "$SIZE" -lt 10000 ]; then
+            echo "ERROR: $TRIE is suspiciously small ($SIZE bytes)"
+            exit 1
+          fi
+          echo "registry.trie OK ($SIZE bytes)"
+
+      - name: Run tests against regenerated trie
+        run: swift test
 
       - name: Check for changes
         id: changes
