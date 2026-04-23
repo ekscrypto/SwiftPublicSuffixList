@@ -56,7 +56,9 @@ do {
 
 // MARK: - Trie
 
-// Mirrors Sources/SwiftPublicSuffixList/TrieFormat.swift (format v2).
+// Mirrors Sources/SwiftPublicSuffixList/TrieFormat.swift. Keep the version
+// byte and layout in sync with the library; see that file for the canonical
+// format description.
 let trieMagic: [UInt8] = [0x50, 0x53, 0x4C, 0x54] // "PSLT"
 let trieVersion: UInt8 = 2
 let trieHeaderSize = 24

@@ -5,17 +5,17 @@
 //  Binary trie format used for the embedded Public Suffix List resource
 //  and any trie produced by `TrieBuilder.buildAndSerialize(rules:)`.
 //
-//  Version 2 layout:
+//  Layout (little-endian throughout):
 //
-//  Header (24 bytes, little-endian):
+//  Header (24 bytes):
 //    magic        4  'P','S','L','T'
-//    version      1  == 2
+//    version      1  current format version
 //    flags        1  reserved
 //    _padding     2  reserved
 //    rootOffset   4  absolute offset into buffer of the root node
 //    nodeCount    4  diagnostic
 //    ruleCount    4  diagnostic
-//    byteCount    4  total buffer size in bytes (includes header + body + crc)
+//    byteCount    4  total buffer size, includes header + body + trailer
 //
 //  Body: node records starting at offset 24.
 //
@@ -23,7 +23,7 @@
 //    crc32        4  zlib-compatible CRC32 over bytes[0 ..< byteCount - 4]
 //
 //  Node:
-//    sentinel     1  == 0xE9 — cheap runtime "did we land on a real node?" check
+//    sentinel     1  0xE9 — cheap runtime "did we land on a real node?" check
 //    flags        1
 //      bit 0  isTerminal      (path from root == public-suffix rule)
 //      bit 1  isException     (terminal inverts isRestricted)
@@ -32,7 +32,7 @@
 //    childCount   2
 //    if hasWildcard: wildcardOffset 4
 //    children[childCount], sorted by label UTF-8 lex order:
-//        labelLen    1  must be > 0
+//        labelLen    1  (> 0)
 //        labelBytes  labelLen bytes
 //        childOffset 4
 //

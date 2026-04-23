@@ -7,17 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- **Breaking on-disk format:** Bumped trie format from version 1 to 2.
-  - Every node now starts with a sentinel byte (`0xE9`) — cheap runtime confirmation that pointer arithmetic landed on a real node boundary.
-  - Header grew by a trailing 4-byte CRC32 that covers every byte before it, catching tampering or truncation end-to-end.
-  - File size overhead ~7% (154 KB → 165 KB for the embedded registry).
-  - `registry.trie` files exported by `v2.0.x` will be rejected by `2.1.0+` and the app will fall back to the embedded rules. Re-export or let `updateUsingOnlineRegistry` rebuild the cache on next run.
-- `PublicSuffixList(source: .filePath(_:))` now runs full structural validation — CRC, all offsets in range, no cycles, every reachable node has the sentinel and valid flag bits — before instantiating a matcher. Invalid files fall back to the embedded rules with a warning instead of tripping an internal precondition.
-- The match-time walker bounds-checks every read against the buffer end and verifies each node's sentinel before reading flags. A corrupted or tampered buffer now manifests as a "no match" result rather than an out-of-bounds access.
-
 ### Added
-- Fuzz tests (500 random buffers per seed) exercising `TrieMatcher.loadValidated` — random inputs must be rejected or matched harmlessly, never crash.
+- **Hardened trie loader.** `PublicSuffixList(source: .filePath(_:))` now runs full structural validation before trusting an on-disk buffer: CRC32 over the whole file, every offset range-checked, every reachable node visited exactly once (cycle-free), every node starts with a sentinel byte, reserved flag bits are zero, child records fit inside the buffer. Invalid files fall back to the embedded rules with a warning instead of tripping an internal precondition.
+- **Bounds-checked runtime walker.** The match-time walker asserts every read against the buffer end and re-verifies each node's sentinel byte before dereferencing. A corrupted or tampered buffer manifests as a "no match" result, never an out-of-bounds read.
+- **Fuzz tests** (500 fully-random + 500 header-prefixed-random buffers per seed) exercising `TrieMatcher.loadValidated`. Random inputs must be rejected or matched harmlessly; they must never crash.
 - Targeted validation tests for bad magic, unsupported version, truncated buffer, corrupted body, tampered CRC field, wrong byteCount, out-of-range root offset, and missing node sentinels.
 - `CRC32` helper (zlib-compatible, table-driven) shared by `TrieBuilder` and `TrieMatcher`.
 

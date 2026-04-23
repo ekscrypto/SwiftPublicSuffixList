@@ -43,26 +43,39 @@ The library is backed by a pre-compiled binary trie (`registry.trie`) that is me
 ```
 Header (24 bytes)
   magic        'P','S','L','T'   (4 bytes)
-  version      1                  (1 byte)
+  version      current format     (1 byte)
   flags        reserved           (1 byte)
   _padding                        (2 bytes)
   rootOffset   absolute offset    (4 bytes)
   nodeCount    diagnostic         (4 bytes)
   ruleCount    diagnostic         (4 bytes)
-  byteCount    total file size    (4 bytes)
+  byteCount    total file size    (4 bytes, includes header + body + trailer)
 
-Node
+Body (starts at offset 24)
+Node records. Every node:
+  sentinel     0xE9               (1 byte — cheap "is this a node?" check)
   flags        1 byte
-    bit 0  isTerminal      (path from root == public-suffix rule)
-    bit 1  isException     (terminal inverts isRestricted)
+    bit 0  isTerminal     (path from root == public-suffix rule)
+    bit 1  isException    (terminal inverts isRestricted)
     bit 2  hasWildcard
+    bits 3-7 reserved; must be zero
   childCount   2 bytes
   if hasWildcard: wildcardOffset   4 bytes
   children[childCount], sorted by label UTF-8 bytes:
-    labelLen    1 byte
+    labelLen    1 byte (> 0)
     labelBytes  labelLen bytes
     childOffset 4 bytes
+
+Trailer (last 4 bytes of buffer)
+  crc32        zlib-compatible CRC32 over bytes[0 ..< byteCount - 4]
 ```
+
+`TrieMatcher.loadValidated(data:)` runs the full validation pass
+(CRC check, every offset in range, every node visited exactly once,
+sentinel + flag bits verified). `.filePath(_:)` loading always goes
+through it; trusted sources (`.embedded`, `.rules`, `.onlineRegistry`'s
+own serialization output) skip revalidation because we produced the
+bytes ourselves.
 
 ### Rule Representation
 
