@@ -29,9 +29,9 @@ Run `Utilities/update-suffix.swift` to download the latest Public Suffix List an
     cd Utilities
     swift update-suffix.swift
 
-### Runtime updates
+### Runtime updates — fetch from publicsuffix.org
 
-Use an instance of `PublicSuffixList` (rather than the static helpers) when you need to update the rules at runtime.
+Use an instance of `PublicSuffixList` (rather than the static helpers) when you need to update the rules at runtime. The built-in updater hits publicsuffix.org and replaces the in-memory trie on success:
 
     import SwiftPublicSuffixList
 
@@ -39,15 +39,65 @@ Use an instance of `PublicSuffixList` (rather than the static helpers) when you 
         .urls(for: .cachesDirectory, in: .userDomainMask).first!
         .appendingPathComponent("public-suffix-list.trie")
 
+    // Falls back to embedded rules if the cache file is missing/corrupt.
     let publicSuffixList = await PublicSuffixList.list(from: .filePath(cacheUrl.path))
 
-Request a registry update from publicsuffix.org:
-
     let success: Bool = await publicSuffixList.updateUsingOnlineRegistry()
+    if success {
+        // Persist the new trie for next launch so startup avoids the network.
+        try publicSuffixList.export(to: cacheUrl.path)
+    }
 
-Persist the updated rules for next launch (writes the binary trie format):
+### Runtime updates — your own data source
 
-    try publicSuffixList.export(to: cacheUrl.path)
+If you'd rather ship rules from your own CDN (to avoid hotlinking publicsuffix.org, to control the update cadence, or to amend the list with custom entries), there are two paths.
+
+**Path A: Ship raw rules, build the trie on device.** Send your app an `[[String]]` — one inner array per rule, labels in leftmost-first order. Anything that decodes to `[[String]]` works (JSON, plist, your own wire format). The library builds a trie in memory in a couple of milliseconds.
+
+    // Example: your server returns a JSON array of string arrays.
+    let data: Data = try await URLSession.shared.data(from: myUpdateURL).0
+    let rules = try JSONDecoder().decode([[String]].self, from: data)
+
+    // Build and use directly (one-shot).
+    let list = PublicSuffixList(source: .rules(rules))
+
+    // …or persist as a trie so subsequent launches skip the JSON parse.
+    let trieBytes = TrieBuilder.buildAndSerialize(rules: rules)
+    try trieBytes.write(to: cacheUrl)
+
+**Path B: Pre-compile the trie on your server (or at build time) and ship bytes.** The on-disk format is a memory-mappable binary blob — no parsing cost on device. Any Swift process that can `import SwiftPublicSuffixList` can produce one:
+
+    import SwiftPublicSuffixList
+
+    // Rules in leftmost-first order — same format used by publicsuffix.org.
+    let rules: [[String]] = [
+        ["com"],
+        ["co", "uk"],
+        ["*", "ck"],
+        ["!www", "ck"],
+        // …
+    ]
+
+    let bytes: Data = TrieBuilder.buildAndSerialize(rules: rules)
+    try bytes.write(to: URL(fileURLWithPath: "/path/to/registry.trie"))
+
+On device, load it the same way you would the embedded resource — either by pointing `.filePath` at the cached file, or by bundling it as a resource:
+
+    let list = PublicSuffixList(source: .filePath(cacheUrl.path))
+
+`TrieBuilder.buildAndSerialize(rules:)` and the `.filePath(_:)` / `.rules(_:)` sources are the full public surface for custom data flows. The nightly workflow script (`Utilities/update-suffix.swift`) is itself a worked example of building a trie from the upstream PSL text format.
+
+### Parsing the upstream PSL text
+
+The publicsuffix.org distribution is a plain-text file — one rule per line, comments start with `//`. Parsing it into `[[String]]` is trivial; `updateUsingOnlineRegistry(...)` does it internally, but if you want to handle the fetch yourself:
+
+    let text: String = // fetched from publicsuffix.org or your mirror
+    let rules: [[String]] = text
+        .components(separatedBy: .newlines)
+        .filter { !$0.hasPrefix("//") && !$0.isEmpty }
+        .map { $0.components(separatedBy: ".") }
+
+    let trieBytes = TrieBuilder.buildAndSerialize(rules: rules)
 
 ## Classes & Usage
 

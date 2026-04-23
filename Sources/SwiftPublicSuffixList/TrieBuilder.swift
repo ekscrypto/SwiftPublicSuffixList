@@ -21,17 +21,45 @@ final class BuildTrieNode {
 
 /// Builds and serializes a trie representation of a public suffix rule set.
 ///
-/// Used both by the nightly update tooling (to produce the embedded
-/// `registry.trie` resource) and by `PublicSuffixList` at runtime when the
-/// caller supplies a custom `[[String]]` rule set.
+/// Used by the nightly update tooling to produce the embedded `registry.trie`
+/// resource, and by `PublicSuffixList` at runtime when the caller supplies a
+/// custom `[[String]]` rule set via `PublicSuffixList(source: .rules(...))`.
+///
+/// It's also the extension point for applications that want to ship their own
+/// pre-compiled trie — fetch an updated rule set from your CDN, build a trie
+/// on the fly, and cache the bytes for the next launch:
+///
+/// ```swift
+/// let rules: [[String]] = // decoded from wherever you source them
+/// let bytes: Data = TrieBuilder.buildAndSerialize(rules: rules)
+/// try bytes.write(to: cacheUrl)
+///
+/// // Later …
+/// let list = PublicSuffixList(source: .filePath(cacheUrl.path))
+/// ```
 public enum TrieBuilder {
 
     /// Builds a trie from the supplied rules and returns the serialized bytes.
     ///
+    /// Rules must be in leftmost-first order (the same order publicsuffix.org
+    /// distributes them in — `com.ac` becomes `["com", "ac"]`). `*` as the
+    /// leftmost label is a wildcard; a `!` prefix on the leftmost label
+    /// marks the rule as an exception.
+    ///
+    /// ```swift
+    /// let bytes = TrieBuilder.buildAndSerialize(rules: [
+    ///     ["com"],
+    ///     ["co", "uk"],
+    ///     ["*", "ck"],
+    ///     ["!www", "ck"],
+    /// ])
+    /// try bytes.write(to: URL(fileURLWithPath: "registry.trie"))
+    /// ```
+    ///
     /// - Parameter rules: Array of rules, each an array of labels.
-    ///   `*` in the leftmost position is a wildcard; `!` prefix makes the
-    ///   rule an exception.
-    /// - Returns: Serialized trie bytes suitable for `TrieMatcher(data:)`.
+    /// - Returns: Serialized trie bytes. The resulting blob is the same
+    ///   format consumed by `PublicSuffixList(source: .filePath(...))` and
+    ///   produced by `PublicSuffixList.export(to:)`.
     public static func buildAndSerialize(rules: [[String]]) -> Data {
         let root = build(rules: rules)
         return serialize(root: root, ruleCount: rules.count)
