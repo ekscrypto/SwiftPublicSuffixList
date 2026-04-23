@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-04-23
+
 ### Changed
 - **Breaking:** Replaced the JSON-backed rule loader and linear matcher with a memory-mapped binary trie (`registry.trie`). Load time drops by ~140× and per-match time by ~1700× in release builds; on an iPhone the library's pre-v2 ~1 s first-use cost effectively disappears.
 - **Breaking:** `Match` struct simplified to `prevailingRule: [String]` and `isRestricted: Bool`. `matchedRules` is gone — it was never part of the PSL algorithm and its construction dominated match time.
@@ -16,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `TrieFormat`, `TrieBuilder`, `TrieMatcher` in the library target. `TrieBuilder.buildAndSerialize(rules:)` is public so callers and tooling can produce trie bytes.
 - `Sources/SuffixLoadBench/` — standalone executable target that benchmarks the library's load and match performance across multiple candidate formats. Run `swift run -c release SuffixLoadBench bench`.
 - Comprehensive DocC documentation for all public APIs.
+- Nightly workflow validates the regenerated `registry.trie` (magic bytes + minimum size) and runs `swift test` before committing — malformed tries can't ship.
 
 ### Removed
 - **Breaking:** `PublicSuffixRulesRegistry` (and its `rules: [[String]]` static accessor).
@@ -688,7 +691,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.40...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.40...2.0.0
 [1.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.39...1.1.40
 [1.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...1.1.39
 [1.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.37...1.1.38
