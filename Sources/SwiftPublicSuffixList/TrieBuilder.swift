@@ -81,7 +81,7 @@ public enum TrieBuilder {
                 }
                 if i == 0 && raw.hasPrefix("!") {
                     isExceptionRule = true
-                    let clean = String(raw.dropFirst())
+                    let clean = Punycode.toACE(String(raw.dropFirst()))
                     if let existing = node.children[clean] {
                         node = existing
                     } else {
@@ -98,11 +98,12 @@ public enum TrieBuilder {
                         node = n
                     }
                 } else {
-                    if let existing = node.children[raw] {
+                    let ace = Punycode.toACE(raw)
+                    if let existing = node.children[ace] {
                         node = existing
                     } else {
                         let n = BuildTrieNode()
-                        node.children[raw] = n
+                        node.children[ace] = n
                         node = n
                     }
                 }
@@ -185,7 +186,8 @@ public enum TrieBuilder {
         }
         for (i, (label, _)) in sorted.enumerated() {
             let utf8 = Array(label.utf8)
-            precondition(utf8.count <= 255, "label longer than 255 bytes: \(label)")
+            precondition(utf8.count <= 63,
+                         "label longer than 63 bytes (DNS max): \(label)")
             out.append(UInt8(utf8.count))
             out.append(contentsOf: utf8)
             out._pslAppendLE(childOffsets[i])

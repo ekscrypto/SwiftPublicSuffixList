@@ -265,10 +265,15 @@ public final class PublicSuffixList {
     /// This is the zero-allocation fast path — use it when you only need a
     /// yes/no answer.
     ///
-    /// - Parameter candidate: The domain string to validate.
+    /// - Important: The candidate must be in ASCII / ACE (Punycode) form.
+    ///   IDN hostnames like `"example.香港"` are rejected as invalid — encode
+    ///   each label first, e.g. `"example.xn--j6w193g"`. This matches the
+    ///   DNS wire format and RFC 5321 hostname syntax.
+    ///
+    /// - Parameter candidate: The domain string to validate. Must be ASCII.
     /// - Returns: `true` when the domain is valid and registrable; `false`
-    ///   when it's a public suffix, fails RFC5321 syntax checks, or does not
-    ///   match any rule.
+    ///   when it's a public suffix, fails RFC5321 syntax checks, contains
+    ///   non-ASCII bytes, or does not match any rule.
     public func isUnrestricted(_ candidate: String) -> Bool {
         accessLock.lock()
         let m = matcher

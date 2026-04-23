@@ -16,6 +16,18 @@ Matching walks the trie by label from TLD inward. A single `isUnrestricted(_:)` 
 
 This replaces the pre-v2 behaviour where loading the JSON-backed rule set and scanning it linearly could take up to ~1 s on a mobile device.
 
+## Hostnames must be in ACE (Punycode) form
+
+Since v3.0, `isUnrestricted(_:)` and `match(_:)` expect hostnames in ASCII / ACE form. IDN labels must be Punycode-encoded by the caller before the check:
+
+    // ❌ rejected — raw Unicode is not a valid wire-format hostname
+    PublicSuffixList.isUnrestricted("example.香港")
+
+    // ✅ correct
+    PublicSuffixList.isUnrestricted("example.xn--j6w193g")
+
+This matches the DNS wire format and the RFC 5321 hostname syntax used in email. The embedded trie stores ACE-form labels only, so the matcher can compare byte-for-byte against whatever the caller supplies without surprise. Rule inputs to `.rules([[String]])` may still be in UTF-8 form — the builder runs each label through an RFC 3492 Punycode encoder at build time.
+
 ## Regular Updates Recommended
 
 The [Public Suffix List](https://publicsuffix.org) is updated regularly. Pulling the latest version of this library is usually sufficient; for applications that need the freshest list between releases, fetch it at runtime (see below).

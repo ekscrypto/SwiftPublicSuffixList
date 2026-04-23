@@ -167,11 +167,44 @@ final class TrieTests: XCTestCase {
                        "duplicate rules must not multiply the trie body")
     }
 
-    func testUnicodeLabelsRoundTrip() {
+    func testUnicodeRulesAreAutoConvertedToACE() {
+        // Builder runs each label through Punycode.toACE so the caller can
+        // still supply the PSL .dat's native UTF-8 form when building rules.
+        // The resulting trie stores ASCII-only labels; the caller must query
+        // in ACE form too.
         let m = match([["公司", "cn"], ["jp"]])
-        XCTAssertFalse(m.isUnrestricted("公司.cn"))
-        XCTAssertTrue(m.isUnrestricted("baidu.公司.cn"))
-        XCTAssertTrue(m.isUnrestricted("秋田.jp"))
+        XCTAssertFalse(m.isUnrestricted("xn--55qx5d.cn"),
+                       "xn--55qx5d.cn is the ACE form of 公司.cn — listed as public suffix")
+        XCTAssertTrue(m.isUnrestricted("baidu.xn--55qx5d.cn"),
+                      "one level deeper than the public suffix is registrable")
+        XCTAssertTrue(m.isUnrestricted("xn--rny31h.jp"),
+                      "xn--rny31h is the ACE form of 秋田; .jp is the rule so this is registrable")
+    }
+
+    func testCallerPassingRawUnicodeIsRejected() {
+        // The matcher's syntax check rejects bytes ≥ 0x80 — callers must ACE-
+        // encode IDN labels before calling. This is the explicit contract.
+        let m = match([["公司", "cn"]])
+        XCTAssertFalse(m.isUnrestricted("公司.cn"),
+                       "raw UTF-8 host is rejected by isValidHost regardless of PSL state")
+        XCTAssertFalse(m.isUnrestricted("baidu.公司.cn"))
+    }
+
+    // MARK: - Punycode encoder
+
+    func testPunycodeEncodesKnownValues() {
+        // Spot checks covering the basic-only, non-basic-only, and mixed
+        // code-point paths of the RFC 3492 encoder.
+        XCTAssertEqual(Punycode.toACE("example"), "example",
+                       "pure ASCII passes through verbatim (no xn-- prefix)")
+        XCTAssertEqual(Punycode.toACE("ü"), "xn--tda",
+                       "single non-basic code point")
+        XCTAssertEqual(Punycode.toACE("bücher"), "xn--bcher-kva",
+                       "mixed basic + non-basic (German)")
+        XCTAssertEqual(Punycode.toACE("香港"), "xn--j6w193g",
+                       "all non-basic (Traditional Chinese, Hong Kong)")
+        XCTAssertEqual(Punycode.toACE("公司"), "xn--55qx5d",
+                       "all non-basic (Simplified Chinese, 'company')")
     }
 
     func testMaximumLabelLengthAccepted() {
@@ -326,6 +359,44 @@ final class TrieTests: XCTestCase {
         XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
     }
 
+    func testValidationRejectsLabelLongerThan63Bytes() {
+        // Craft a trie whose first child label length byte claims > 63.
+        // RFC 1035 caps DNS labels at 63 bytes; the matcher also caps
+        // candidate labels at 63, so a stored label longer than that could
+        // never match anything. Reject structurally.
+        var bytes = validBytes([["com"]])
+        let rootOffset = Int(UInt32(bytes[8])
+                         | (UInt32(bytes[9]) << 8)
+                         | (UInt32(bytes[10]) << 16)
+                         | (UInt32(bytes[11]) << 24))
+        // Root layout for [["com"]]: sentinel(1) + flags(1) + childCount(2)
+        // + first child: labelLen(1) + labelBytes + childOffset(4).
+        // Root has no wildcard flag for this input, so labelLen sits at
+        // rootOffset + 4.
+        bytes[rootOffset + 4] = 64  // just over the cap
+        // Repair CRC so the check reaches walkForValidation.
+        let crcRange = bytes.count - 4
+        var crc: UInt32 = 0xFFFFFFFF
+        let table: [UInt32] = {
+            var t = [UInt32](repeating: 0, count: 256)
+            for i in 0..<256 {
+                var c = UInt32(i)
+                for _ in 0..<8 { c = (c & 1 != 0) ? (0xEDB88320 ^ (c >> 1)) : (c >> 1) }
+                t[i] = c
+            }
+            return t
+        }()
+        for i in 0..<crcRange {
+            crc = (crc >> 8) ^ table[Int((crc ^ UInt32(bytes[i])) & 0xFF)]
+        }
+        let crcLE = (crc ^ 0xFFFFFFFF).littleEndian
+        withUnsafeBytes(of: crcLE) { src in
+            for i in 0..<4 { bytes[crcRange + i] = src[i] }
+        }
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes),
+                     "labelLen > 63 must be rejected by validation")
+    }
+
     func testValidationRejectsMissingNodeSentinel() {
         var bytes = validBytes()
         // Locate root node (header bytes 8..11), blow away its sentinel byte.
@@ -404,6 +475,21 @@ final class TrieTests: XCTestCase {
     }
 
     // MARK: - Parity with embedded rules for a well-known case
+
+    func testEmbeddedTrieRecognizesIDNSuffixInACEForm() {
+        // The PSL includes 香港 (Hong Kong) TLD plus several .香港 second-level
+        // suffixes such as 公司.香港 ("company.hk"). With ACE-only storage,
+        // callers must pass the xn-- form.
+        XCTAssertFalse(PublicSuffixList.isUnrestricted("xn--j6w193g"),
+                       ".香港 (xn--j6w193g) is itself a public suffix — not registrable")
+        XCTAssertFalse(PublicSuffixList.isUnrestricted("xn--55qx5d.xn--j6w193g"),
+                       "公司.香港 is a listed public suffix — not registrable")
+        XCTAssertTrue(PublicSuffixList.isUnrestricted("acme.xn--55qx5d.xn--j6w193g"),
+                      "one level below the public suffix is registrable")
+        // Raw Unicode form of the same host is rejected by syntax validation.
+        XCTAssertFalse(PublicSuffixList.isUnrestricted("acme.公司.香港"),
+                       "raw Unicode host is not accepted — caller must ACE-encode")
+    }
 
     func testEmbeddedTrieHandlesWildcardAndExceptionFromRealPSL() {
         // These cases are known to appear in the real publicsuffix.org list.

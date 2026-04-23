@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-04-23
+
+### Changed
+- **Breaking:** Hostnames passed to `PublicSuffixList.isUnrestricted(_:)` and `match(_:)` must now be in ACE (Punycode) form. Raw Unicode hostnames like `example.香港` are rejected by syntax validation — encode IDN labels as `xn--…` before calling (e.g., `example.xn--j6w193g`). `isValidHost` now refuses any byte ≥ 0x80.
+- **Breaking:** The embedded trie now stores labels in ACE form only. A caller that built cached `.trie` files from v2.0.x rules and loads them via `.filePath(_:)` will find them structurally valid but their IDN labels won't match (the runtime compares ASCII bytes). Rebuild caches on upgrade.
+- `TrieBuilder.buildAndSerialize(rules:)` auto-converts each label via Punycode before insertion, so callers can continue to pass the PSL .dat's native UTF-8 form in `[[String]]` rules. The builder also tightens the per-label cap from 255 to 63 bytes (DNS RFC 1035).
+
+### Added
+- `Punycode` (internal) — a self-contained RFC 3492 encoder. No external IDNA dependency.
+- `walkForValidation` now verifies every stored label byte is ASCII LDH (`a-z`, `A-Z`, `0-9`, `-`), rejecting crafted tries that claim non-LDH bytes. New `TrieValidationError.nonLDHLabelByte(at:byte:)` case.
+- Structural check: label length ≤ 63 bytes. New `TrieValidationError.labelTooLong(at:length:)` case.
+
 ## [2.0.2] - 2026-04-23
 
 ### Added

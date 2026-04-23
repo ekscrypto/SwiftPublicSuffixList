@@ -32,7 +32,9 @@ The library is backed by a pre-compiled binary trie (`registry.trie`) that is me
 
 - **TrieBuilder** (`Sources/SwiftPublicSuffixList/TrieBuilder.swift`) - Builds an in-memory trie from `[[String]]` rules and serializes it into the binary format. Public, so tooling can emit trie files.
 
-- **TrieMatcher** (`Sources/SwiftPublicSuffixList/TrieMatcher.swift`) - Walks the serialized trie in place. Validates host syntax (RFC5321), splits the candidate into labels, and descends the trie right-to-left (TLD first). Implements `isUnrestricted(_:)` as the zero-alloc fast path and `match(_:)` which additionally reconstructs the prevailing rule.
+- **TrieMatcher** (`Sources/SwiftPublicSuffixList/TrieMatcher.swift`) - Walks the serialized trie in place. Validates host syntax (RFC5321, ASCII-only), splits the candidate into labels, and descends the trie right-to-left (TLD first). Implements `isUnrestricted(_:)` as the zero-alloc fast path and `match(_:)` which additionally reconstructs the prevailing rule.
+
+- **Punycode** (`Sources/SwiftPublicSuffixList/Punycode.swift`) - Internal RFC 3492 encoder. Used by `TrieBuilder` to convert IDN labels to ACE form (`xn--…`) at build time so the serialized trie contains only ASCII bytes. Encoder-only; the library never needs to decode ACE back to Unicode.
 
 - **PublicSuffixOnlineRegistryFetcher** (`Sources/SwiftPublicSuffixList/PublicSuffixOnlineRegistryFetcher.swift`) - Fetches and parses rules from publicsuffix.org. Returns `[[String]]`; the caller builds a trie from them. Blocks calling thread (not main thread).
 
@@ -85,7 +87,23 @@ When callers supply custom rules via `.rules([[String]])`, each inner array is a
 - `["*", "uk"]` — wildcard matches any second-level domain under `.uk`
 - `["!www", "ck"]` — exception: `www.ck` is NOT restricted even if `*.ck` would match
 
-`TrieBuilder.buildAndSerialize(rules:)` converts those into the binary format.
+`TrieBuilder.buildAndSerialize(rules:)` converts those into the binary format. Since v3.0 the builder runs each label through `Punycode.toACE(_:)` so callers can still pass the PSL .dat's native UTF-8 form (e.g. `["公司", "香港"]`); the serialized trie contains ASCII-only ACE labels (e.g. `["xn--55qx5d", "xn--j6w193g"]`). Pure-ASCII labels pass through verbatim.
+
+### ACE-only host inputs (v3.0 breaking change)
+
+`PublicSuffixList.isUnrestricted(_:)` and `match(_:)` accept ASCII hostnames only. Raw Unicode labels are rejected by `isValidHost` (any byte ≥ 0x80 → invalid). Callers that need to check an IDN host must Punycode-encode each label first:
+
+```swift
+// ❌ rejected since v3.0
+list.isUnrestricted("example.香港")
+
+// ✅ correct
+list.isUnrestricted("example.xn--j6w193g")
+```
+
+This aligns with DNS wire format (labels are ASCII on the wire) and with RFC 5321 hostnames (email host parts are ASCII; SMTPUTF8 is out of scope for PSL matching). The library intentionally does *not* include a Punycode decoder — decoding ACE back to Unicode for display is the caller's responsibility.
+
+Structural validation of stored labels also enforces the LDH rule: every label byte must be in `[a-zA-Z0-9-]`, and each label is capped at 63 bytes (RFC 1035). Crafted trie files that violate either rule are rejected by `TrieMatcher.loadValidated`.
 
 ### Match Struct
 

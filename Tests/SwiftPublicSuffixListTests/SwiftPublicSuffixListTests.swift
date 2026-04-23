@@ -18,12 +18,22 @@ class SwiftPublicSuffixListTests: XCTestCase {
         "natural-history.izumizaki.fukushima.jp", // confirm multi-level rule for 4 components
         "my-site.com", // confirm - characters are allowed
         "my.site.com", // confirm sub-domains are allowed
-        "www.秋田.jp", // confirm Unicode characters in host are allowed
+        "www.xn--rny31h.jp", // ACE form of www.秋田.jp — IDN hosts must be Punycode-encoded by the caller
         "bucarest.telekommunikation.museum", // confirm longer TLD are allowed
         "123456789012345678901234567890123456789012345678901234567890123.net", // confirm maximum allowed component of 63 characters
         "123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567890123.123456789012345678901234567890123456789012345678901234567.net", // confirm maximum allowed entire host of 253 characters
         "8.8.8.org", // confirm numerical domains are allowed provided they are within a TLD,
-        "灣.澳门" // confirm Unicode TLD are allowed
+        "xn--nnx.xn--mix082f" // ACE form of 灣.澳门 — Unicode TLDs must also be Punycode-encoded
+    ]
+
+    let unicodeHostsRejectedAsInvalid: [String] = [
+        // Raw Unicode hostnames are rejected by syntax validation — the library
+        // accepts only ACE-encoded (Punycode) labels since v3.0.
+        "秋田.jp",
+        "公司.cn",
+        "www.秋田.jp",
+        "bücher.de",
+        "灣.澳门"
     ]
     
     let invalidSyntaxHosts: [String] = [
@@ -53,8 +63,8 @@ class SwiftPublicSuffixListTests: XCTestCase {
         "my'site.com", // Invalid character '
         "my site.com", // Invalid character <space>
         "my\"site.com", // Potentially invalid character " -- to be confirmed, not listed on Microsoft site
-        "秋田.jp", // listed as public suffix
-        "รัฐบาล.ไทย", // listed as public suffix
+        "xn--rny31h.jp", // ACE form of 秋田.jp — listed as public suffix
+        "xn--h3cuzk1di.xn--o3cw4h", // ACE form of รัฐบาล.ไทย — listed as public suffix
         "izumizaki.fukushima.jp", // listed as public suffix,
         "hotel.kitakyushu.jp", // matching *.kitakyushu.jp public suffix
         "website.ck", // *.ck listed as public suffix, not matching !www.ck exception
@@ -68,6 +78,15 @@ class SwiftPublicSuffixListTests: XCTestCase {
     
     func testInvalidSyntaxHosts() {
         invalidSyntaxHosts.forEach { XCTAssertFalse(PublicSuffixList.isUnrestricted($0), "Expected \($0) to be an invalid email host syntax") }
+    }
+
+    func testUnicodeHostsMustBePunycodeEncoded() {
+        // Raw Unicode hostnames are intentionally rejected since v3.0 — callers
+        // are expected to Punycode-encode IDN labels before validation.
+        unicodeHostsRejectedAsInvalid.forEach {
+            XCTAssertFalse(PublicSuffixList.isUnrestricted($0),
+                           "Expected raw Unicode host \($0) to be rejected; callers must pass ACE form")
+        }
     }
     
     func testValidSyntaxHostsInstance() {

@@ -60,6 +60,8 @@ enum TrieValidationError: Error, CustomStringConvertible {
     case nodeReservedFlagsNotZero(at: UInt32, flags: UInt8)
     case childRecordOutOfRange(at: UInt32)
     case zeroLengthLabel(at: UInt32)
+    case labelTooLong(at: UInt32, length: Int)
+    case nonLDHLabelByte(at: UInt32, byte: UInt8)
     case cycleDetected(at: UInt32)
 
     var description: String {
@@ -76,6 +78,8 @@ enum TrieValidationError: Error, CustomStringConvertible {
             return "node at \(o) has reserved flag bits set: \(String(f, radix: 16))"
         case .childRecordOutOfRange(let o):    return "child record at node \(o) extends past buffer end"
         case .zeroLengthLabel(let o):          return "node at \(o) has a zero-length child label"
+        case .labelTooLong(let o, let n):      return "node at \(o) has a child label of \(n) bytes (max 63)"
+        case .nonLDHLabelByte(let o, let b):   return "node at \(o) has a non-LDH label byte 0x\(String(b, radix: 16))"
         case .cycleDetected(let o):            return "cycle detected at node \(o)"
         }
     }
@@ -235,9 +239,29 @@ final class TrieMatcher {
             guard labelLen > 0 else {
                 throw TrieValidationError.zeroLengthLabel(at: nodeOffset)
             }
+            // DNS labels are ≤ 63 bytes (RFC 1035). Reject anything larger —
+            // the matcher clamps candidate labels to 63 so a longer stored
+            // label can never match, and rejecting early prevents crafted
+            // tries from stretching child records over arbitrary regions.
+            guard labelLen <= 63 else {
+                throw TrieValidationError.labelTooLong(at: nodeOffset, length: labelLen)
+            }
             // Need labelLen + 4 more bytes (label + childOffset).
             guard np + cursor + 1 + labelLen + 4 <= base + bodyEnd else {
                 throw TrieValidationError.childRecordOutOfRange(at: nodeOffset)
+            }
+            // Stored labels are ACE-form: ASCII LDH only (a-z, A-Z, 0-9, '-').
+            // Reject anything else as malformed — the matcher caps candidate
+            // labels to the same set, so a non-LDH stored byte can never match.
+            for i in 0..<labelLen {
+                let byte = np[cursor + 1 + i]
+                let isLower = (byte >= 0x61 && byte <= 0x7A)
+                let isUpper = (byte >= 0x41 && byte <= 0x5A)
+                let isDigit = (byte >= 0x30 && byte <= 0x39)
+                let isHyphen = (byte == 0x2D)
+                guard isLower || isUpper || isDigit || isHyphen else {
+                    throw TrieValidationError.nonLDHLabelByte(at: nodeOffset, byte: byte)
+                }
             }
             let childOff = readU32LE(np + cursor + 1 + labelLen)
             childOffsets.append(childOff)
@@ -375,7 +399,13 @@ final class TrieMatcher {
         let count = s.utf8.count
         guard (1...253).contains(count) else { return false }
         if s.hasPrefix(".") || s.hasSuffix(".") { return false }
-        for b in s.utf8 where disallowed.contains(b) { return false }
+        for b in s.utf8 {
+            // Reject non-ASCII. Callers must supply hostnames in ACE form
+            // (`xn--…`); see the Punycode encoder. A Unicode hostname like
+            // "example.香港" is silently rejected — pass "example.xn--j6w193g".
+            if b >= 0x80 { return false }
+            if disallowed.contains(b) { return false }
+        }
         return true
     }
 

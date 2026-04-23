@@ -19,6 +19,103 @@
 
 import Foundation
 
+// MARK: - Punycode (RFC 3492)
+//
+// Inlined here so the update script can convert IDN labels to ACE form
+// before building the trie. Keep in sync with
+// Sources/SwiftPublicSuffixList/Punycode.swift — this is a byte-for-byte
+// port of the same encoder.
+
+enum Punycode {
+    static let base: UInt32 = 36
+    static let tmin: UInt32 = 1
+    static let tmax: UInt32 = 26
+    static let skew: UInt32 = 38
+    static let damp: UInt32 = 700
+    static let initialBias: UInt32 = 72
+    static let initialN: UInt32 = 0x80
+
+    static func toACE(_ label: String) -> String {
+        var hasNonASCII = false
+        for scalar in label.unicodeScalars where scalar.value >= 0x80 {
+            hasNonASCII = true
+            break
+        }
+        if !hasNonASCII { return label }
+        let scalars = label.unicodeScalars.map { $0.value }
+        return "xn--" + encode(scalars)
+    }
+
+    static func adapt(delta: UInt32, numPoints: UInt32, firstTime: Bool) -> UInt32 {
+        var d = firstTime ? (delta / damp) : (delta / 2)
+        d = d + (d / numPoints)
+        var k: UInt32 = 0
+        while d > ((base - tmin) * tmax) / 2 {
+            d = d / (base - tmin)
+            k = k + base
+        }
+        return k + (((base - tmin + 1) * d) / (d + skew))
+    }
+
+    static func digit(_ d: UInt32) -> UInt8 {
+        if d < 26 { return UInt8(0x61 + d) }
+        return UInt8(0x30 + d - 26)
+    }
+
+    static func encode(_ input: [UInt32]) -> String {
+        var n: UInt32 = initialN
+        var delta: UInt32 = 0
+        var bias: UInt32 = initialBias
+        var output: [UInt8] = []
+        output.reserveCapacity(input.count * 2)
+
+        var h: UInt32 = 0
+        var b: UInt32 = 0
+        for cp in input where cp < 0x80 {
+            output.append(UInt8(cp))
+            h += 1
+            b += 1
+        }
+        if b > 0 {
+            output.append(0x2D)
+        }
+
+        let total = UInt32(input.count)
+        while h < total {
+            var m: UInt32 = .max
+            for cp in input where cp >= n && cp < m {
+                m = cp
+            }
+            delta = delta + (m - n) * (h + 1)
+            n = m
+            for cp in input {
+                if cp < n { delta += 1 }
+                if cp == n {
+                    var q = delta
+                    var k = base
+                    while true {
+                        let t: UInt32
+                        if k <= bias + tmin { t = tmin }
+                        else if k >= bias + tmax { t = tmax }
+                        else { t = k - bias }
+                        if q < t { break }
+                        output.append(digit(t + ((q - t) % (base - t))))
+                        q = (q - t) / (base - t)
+                        k += base
+                    }
+                    output.append(digit(q))
+                    bias = adapt(delta: delta, numPoints: h + 1, firstTime: h == b)
+                    delta = 0
+                    h += 1
+                }
+            }
+            delta += 1
+            n += 1
+        }
+        return String(bytes: output, encoding: .ascii)!
+    }
+}
+
 // MARK: - Fetch
 
 let publicSuffixUrl = URL(string: "https://publicsuffix.org/list/public_suffix_list.dat")!
@@ -110,7 +207,7 @@ func buildTrie(rules: [[String]]) -> BuildTrieNode {
             if raw.isEmpty { continue }
             if i == 0 && raw.hasPrefix("!") {
                 isExceptionRule = true
-                let clean = String(raw.dropFirst())
+                let clean = Punycode.toACE(String(raw.dropFirst()))
                 node = node.children[clean] ?? {
                     let n = BuildTrieNode(); node.children[clean] = n; return n
                 }()
@@ -120,8 +217,9 @@ func buildTrie(rules: [[String]]) -> BuildTrieNode {
                     let n = BuildTrieNode(); node.wildcardChild = n; node = n
                 }
             } else {
-                node = node.children[raw] ?? {
-                    let n = BuildTrieNode(); node.children[raw] = n; return n
+                let ace = Punycode.toACE(raw)
+                node = node.children[ace] ?? {
+                    let n = BuildTrieNode(); node.children[ace] = n; return n
                 }()
             }
         }
@@ -179,7 +277,8 @@ func writeNode(_ node: BuildTrieNode, into out: inout Data) -> UInt32 {
     }
     for (i, (label, _)) in sorted.enumerated() {
         let utf8 = Array(label.utf8)
-        precondition(utf8.count <= 255, "label longer than 255 bytes: \(label)")
+        precondition(utf8.count <= 63,
+                     "label longer than 63 bytes (DNS max): \(label)")
         out.append(UInt8(utf8.count))
         out.append(contentsOf: utf8)
         out.appendLE(childOffsets[i])
