@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-04-23
+
+### Added
+- README section showing three runtime-update flows: the built-in `updateUsingOnlineRegistry()` path, fetching raw `[[String]]` rules from a custom source and building a trie on device with `TrieBuilder.buildAndSerialize(rules:)`, and pre-compiling a trie offline then shipping the bytes.
+- Short snippet documenting how to parse the upstream publicsuffix.org text format into `[[String]]`.
+
+### Changed
+- Expanded DocC on `TrieBuilder.buildAndSerialize(rules:)` with a usage example so the same guidance surfaces in Xcode Quick Help.
+
 ## [2.0.0] - 2026-04-23
 
 ### Changed
@@ -691,7 +700,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.1...HEAD
+[2.0.1]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.40...2.0.0
 [1.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.39...1.1.40
 [1.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/1.1.38...1.1.39
