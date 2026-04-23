@@ -148,4 +148,27 @@ class SwiftPublicSuffixListTests: XCTestCase {
     func testEmptyRulesIgnored() {
         XCTAssertTrue(PublicSuffixList.isUnrestricted("website.com", rules: [[], [], ["com"], []]), "Empty suffix rules should be ignored but rules with definitions should still be processed")
     }
+
+    func testAceEncodesIDNLabels() {
+        XCTAssertEqual(PublicSuffixList.ace("example.香港"), "example.xn--j6w193g")
+        XCTAssertEqual(PublicSuffixList.ace("www.秋田.jp"), "www.xn--rny31h.jp")
+        XCTAssertEqual(PublicSuffixList.ace("bücher.de"), "xn--bcher-kva.de")
+        XCTAssertEqual(PublicSuffixList.ace("灣.澳门"), "xn--nnx.xn--mix082f")
+    }
+
+    func testAcePassesThroughASCII() {
+        XCTAssertEqual(PublicSuffixList.ace("yahoo.com"), "yahoo.com")
+        XCTAssertEqual(PublicSuffixList.ace("bbc.co.uk"), "bbc.co.uk")
+        XCTAssertEqual(PublicSuffixList.ace(""), "")
+    }
+
+    func testAcePreservesCase() {
+        // Encoder-only contract: no case folding or normalization is applied.
+        XCTAssertEqual(PublicSuffixList.ace("Example.COM"), "Example.COM")
+    }
+
+    func testAceOutputRoundTripsThroughIsUnrestricted() {
+        XCTAssertTrue(PublicSuffixList.isUnrestricted(PublicSuffixList.ace("example.香港")))
+        XCTAssertTrue(PublicSuffixList.isUnrestricted(PublicSuffixList.ace("www.秋田.jp")))
+    }
 }

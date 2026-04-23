@@ -86,6 +86,9 @@ import FoundationNetworking
 /// - ``match(_:)-6q0fd``
 /// - ``match(_:rules:)``
 ///
+/// ### Encoding Hostnames
+/// - ``ace(_:)``
+///
 /// ### Updating Rules
 /// - ``updateUsingOnlineRegistry(cachePolicy:)-6bqvv``
 /// - ``updateUsingOnlineRegistry(cachePolicy:completion:)``
@@ -356,6 +359,36 @@ public final class PublicSuffixList {
     public static func match(_ candidate: String, rules: [[String]]) -> Match? {
         let data = TrieBuilder.buildAndSerialize(rules: rules)
         return TrieMatcher(data: data).match(candidate)
+    }
+
+    // MARK: - ACE encoding
+
+    /// Returns the ACE (Punycode) form of a full hostname.
+    ///
+    /// Splits on `.`, runs each label through an RFC 3492 Punycode encoder,
+    /// and rejoins with `.`. Pure-ASCII labels pass through verbatim; labels
+    /// containing any non-ASCII scalar are emitted in `xn--…` form.
+    ///
+    /// Use this to prepare IDN hostnames for ``isUnrestricted(_:)-6qd5f``
+    /// and ``match(_:)-6q0fd``, which accept ASCII hostnames only:
+    ///
+    /// ```swift
+    /// let host = PublicSuffixList.ace("example.香港") // "example.xn--j6w193g"
+    /// PublicSuffixList.isUnrestricted(host)           // true
+    /// ```
+    ///
+    /// This is a pure string transformation — no syntax validation, no case
+    /// folding, and no Unicode normalization. Feed already-canonicalized
+    /// labels (NFC, lowercased as appropriate) if you need those; see the
+    /// `IDNA` / Unicode spec for full IDN processing beyond the encoding
+    /// step.
+    ///
+    /// The library intentionally does not expose a decoder — hostnames only
+    /// need to reach ACE form to match against the trie.
+    public static func ace(_ hostname: String) -> String {
+        hostname.components(separatedBy: ".")
+            .map(Punycode.toACE)
+            .joined(separator: ".")
     }
 
     // MARK: - Online update

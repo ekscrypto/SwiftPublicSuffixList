@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-04-23
+
+### Added
+- `PublicSuffixList.ace(_:)` — static helper that returns the ACE (Punycode) form of a full hostname by applying the internal RFC 3492 encoder to each label and rejoining with `.`. Purely a string transformation (no case folding, no NFC), intended to prepare IDN hostnames for `isUnrestricted(_:)` / `match(_:)`, which continue to accept ASCII input only. The encoder itself remains internal — the encoder-only contract is surfaced through this single public entry point.
+
 ## [3.0.0] - 2026-04-23
 
 ### Changed
