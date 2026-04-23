@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Breaking on-disk format:** Bumped trie format from version 1 to 2.
+  - Every node now starts with a sentinel byte (`0xE9`) — cheap runtime confirmation that pointer arithmetic landed on a real node boundary.
+  - Header grew by a trailing 4-byte CRC32 that covers every byte before it, catching tampering or truncation end-to-end.
+  - File size overhead ~7% (154 KB → 165 KB for the embedded registry).
+  - `registry.trie` files exported by `v2.0.x` will be rejected by `2.1.0+` and the app will fall back to the embedded rules. Re-export or let `updateUsingOnlineRegistry` rebuild the cache on next run.
+- `PublicSuffixList(source: .filePath(_:))` now runs full structural validation — CRC, all offsets in range, no cycles, every reachable node has the sentinel and valid flag bits — before instantiating a matcher. Invalid files fall back to the embedded rules with a warning instead of tripping an internal precondition.
+- The match-time walker bounds-checks every read against the buffer end and verifies each node's sentinel before reading flags. A corrupted or tampered buffer now manifests as a "no match" result rather than an out-of-bounds access.
+
+### Added
+- Fuzz tests (500 random buffers per seed) exercising `TrieMatcher.loadValidated` — random inputs must be rejected or matched harmlessly, never crash.
+- Targeted validation tests for bad magic, unsupported version, truncated buffer, corrupted body, tampered CRC field, wrong byteCount, out-of-range root offset, and missing node sentinels.
+- `CRC32` helper (zlib-compatible, table-driven) shared by `TrieBuilder` and `TrieMatcher`.
+
 ## [2.0.1] - 2026-04-23
 
 ### Added

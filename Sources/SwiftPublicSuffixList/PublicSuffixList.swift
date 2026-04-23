@@ -249,22 +249,12 @@ public final class PublicSuffixList {
             Self.logger("\(Self.self) WARNING: unable to read file at \(path)")
             return nil
         }
-        // Validate everything TrieMatcher's init precondition would check,
-        // so a truncated or malformed file falls back cleanly instead of
-        // tripping an assertion.
-        guard data.count >= 24 else {
-            Self.logger("\(Self.self) WARNING: file at \(path) is shorter than the trie header")
-            return nil
+        // Full structural + CRC validation before we trust the buffer. Any
+        // failure falls back to the embedded rules via the caller.
+        let logger = Self.logger
+        return TrieMatcher.loadValidated(data: data) { reason in
+            logger("\(Self.self) WARNING: rejecting file at \(path) — \(reason)")
         }
-        guard data[0] == 0x50, data[1] == 0x53, data[2] == 0x4C, data[3] == 0x54 else {
-            Self.logger("\(Self.self) WARNING: file at \(path) is not a PSLT trie")
-            return nil
-        }
-        guard data[4] == 1 else {
-            Self.logger("\(Self.self) WARNING: file at \(path) has unsupported trie version \(data[4])")
-            return nil
-        }
-        return TrieMatcher(data: data)
     }
 
     // MARK: - Matching API

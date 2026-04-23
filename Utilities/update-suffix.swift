@@ -56,13 +56,39 @@ do {
 
 // MARK: - Trie
 
-// Mirrors Sources/SwiftPublicSuffixList/TrieFormat.swift
+// Mirrors Sources/SwiftPublicSuffixList/TrieFormat.swift (format v2).
 let trieMagic: [UInt8] = [0x50, 0x53, 0x4C, 0x54] // "PSLT"
-let trieVersion: UInt8 = 1
+let trieVersion: UInt8 = 2
 let trieHeaderSize = 24
+let trieTrailerSize = 4  // trailing CRC32
 let flagTerminal: UInt8  = 0x01
 let flagException: UInt8 = 0x02
 let flagWildcard: UInt8  = 0x04
+let nodeSentinel: UInt8  = 0xE9
+
+// CRC32 (zlib-compatible).
+let crcTable: [UInt32] = {
+    var t = [UInt32](repeating: 0, count: 256)
+    for i in 0..<256 {
+        var c = UInt32(i)
+        for _ in 0..<8 {
+            c = (c & 1 != 0) ? (0xEDB88320 ^ (c >> 1)) : (c >> 1)
+        }
+        t[i] = c
+    }
+    return t
+}()
+
+func crc32(_ data: Data, count: Int) -> UInt32 {
+    var crc: UInt32 = 0xFFFFFFFF
+    data.withUnsafeBytes { raw in
+        let p = raw.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        for i in 0..<count {
+            crc = (crc >> 8) ^ crcTable[Int((crc ^ UInt32(p[i])) & 0xFF)]
+        }
+    }
+    return crc ^ 0xFFFFFFFF
+}
 
 final class BuildTrieNode {
     var isTerminal = false
@@ -143,6 +169,7 @@ func writeNode(_ node: BuildTrieNode, into out: inout Data) -> UInt32 {
     if node.isTerminal { flags |= flagTerminal }
     if node.isException { flags |= flagException }
     if node.wildcardChild != nil { flags |= flagWildcard }
+    out.append(nodeSentinel)
     out.append(flags)
     out.appendLE(UInt16(sorted.count))
     if node.wildcardChild != nil {
@@ -163,7 +190,9 @@ func serializeTrie(root: BuildTrieNode, ruleCount: Int) -> Data {
     out.append(contentsOf: Array(repeating: UInt8(0), count: trieHeaderSize))
     let rootOffset = writeNode(root, into: &out)
     let nodes = nodeCount(root)
+    out.append(contentsOf: [UInt8](repeating: 0, count: trieTrailerSize))
     let byteCount = UInt32(out.count)
+
     var header = Data()
     header.append(contentsOf: trieMagic)
     header.append(trieVersion)
@@ -175,6 +204,13 @@ func serializeTrie(root: BuildTrieNode, ruleCount: Int) -> Data {
     header.appendLE(byteCount)
     precondition(header.count == trieHeaderSize)
     out.replaceSubrange(0..<trieHeaderSize, with: header)
+
+    let crcRange = Int(byteCount) - trieTrailerSize
+    let crc = crc32(out, count: crcRange)
+    var crcLE = crc.littleEndian
+    Swift.withUnsafeBytes(of: &crcLE) { bytes in
+        out.replaceSubrange(crcRange..<crcRange + trieTrailerSize, with: bytes)
+    }
     return out
 }
 

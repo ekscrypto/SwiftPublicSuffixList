@@ -17,12 +17,12 @@ final class TrieTests: XCTestCase {
 
     func testHeaderHasPSLTMagicAndVersion() {
         let bytes = TrieBuilder.buildAndSerialize(rules: [["com"]])
-        XCTAssertGreaterThanOrEqual(bytes.count, 24, "header is 24 bytes")
+        XCTAssertGreaterThanOrEqual(bytes.count, 24 + 4, "header + trailing CRC minimum")
         XCTAssertEqual(bytes[0], 0x50) // P
         XCTAssertEqual(bytes[1], 0x53) // S
         XCTAssertEqual(bytes[2], 0x4C) // L
         XCTAssertEqual(bytes[3], 0x54) // T
-        XCTAssertEqual(bytes[4], 1, "version must be 1")
+        XCTAssertEqual(bytes[4], 2, "version must be 2")
     }
 
     func testHeaderRootOffsetPointsWithinBuffer() {
@@ -156,10 +156,15 @@ final class TrieTests: XCTestCase {
     func testDuplicateRulesCollapse() {
         let single = TrieBuilder.buildAndSerialize(rules: [["com"]])
         let duped  = TrieBuilder.buildAndSerialize(rules: [["com"], ["com"], ["com"]])
-        // Node structure collapses on duplicates; the only differences in the
-        // header are the rule-count diagnostic. Compare node portions.
-        XCTAssertEqual(single.suffix(from: 24), duped.suffix(from: 24),
-                       "duplicate rules must not multiply the trie")
+        // Node structure collapses on duplicates. Compare the body region
+        // (between the 24-byte header and the 4-byte trailing CRC); the
+        // header's ruleCount diagnostic and trailing CRC will legitimately
+        // differ between single and duped.
+        func body(_ d: Data) -> Data {
+            d.subdata(in: 24..<(d.count - 4))
+        }
+        XCTAssertEqual(body(single), body(duped),
+                       "duplicate rules must not multiply the trie body")
     }
 
     func testUnicodeLabelsRoundTrip() {
@@ -255,6 +260,149 @@ final class TrieTests: XCTestCase {
         wait(for: [exp], timeout: 2.0)
     }
 
+    // MARK: - Validation: tampered / malformed buffers
+
+    private func validBytes(_ rules: [[String]] = [["com"], ["co", "uk"]]) -> Data {
+        TrieBuilder.buildAndSerialize(rules: rules)
+    }
+
+    func testValidationAcceptsWellFormedBuffer() {
+        let bytes = validBytes()
+        XCTAssertNotNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsBadMagic() {
+        var bytes = validBytes()
+        bytes[0] = 0xFF  // corrupt magic
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsUnsupportedVersion() {
+        var bytes = validBytes()
+        bytes[4] = 99
+        // (CRC is now wrong too, which would reject earlier; either way: nil.)
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsTruncatedBuffer() {
+        let bytes = validBytes()
+        let truncated = bytes.prefix(20) // shorter than header
+        XCTAssertNil(TrieMatcher.loadValidated(data: Data(truncated)))
+    }
+
+    func testValidationRejectsCorruptedBody() {
+        var bytes = validBytes()
+        // Flip a byte in the middle of the body — CRC must reject.
+        let mid = 24 + (bytes.count - 28) / 2
+        bytes[mid] ^= 0xFF
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsCorruptedCRCField() {
+        var bytes = validBytes()
+        // Flip a bit in the trailing CRC — must reject.
+        bytes[bytes.count - 1] ^= 0x01
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsWrongByteCount() {
+        var bytes = validBytes()
+        // Claim the buffer is 1 byte longer than it really is.
+        let fake = UInt32(bytes.count + 1).littleEndian
+        withUnsafeBytes(of: fake) { src in
+            for i in 0..<4 { bytes[20 + i] = src[i] }
+        }
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsOutOfRangeRootOffset() {
+        var bytes = validBytes()
+        // Point rootOffset past end of buffer. CRC also breaks, which is the
+        // reason we expect rejection — but either way the matcher must refuse.
+        let bad = UInt32(0xFFFF_FFFF).littleEndian
+        withUnsafeBytes(of: bad) { src in
+            for i in 0..<4 { bytes[8 + i] = src[i] }
+        }
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes))
+    }
+
+    func testValidationRejectsMissingNodeSentinel() {
+        var bytes = validBytes()
+        // Locate root node (header bytes 8..11), blow away its sentinel byte.
+        let rootOffset = Int(UInt32(bytes[8])
+                         | (UInt32(bytes[9]) << 8)
+                         | (UInt32(bytes[10]) << 16)
+                         | (UInt32(bytes[11]) << 24))
+        bytes[rootOffset] = 0x00  // should be TrieFormat.nodeSentinel (0xE9)
+        // Need to repair CRC to reach the sentinel check; otherwise CRC rejects first.
+        let crcRange = bytes.count - 4
+        // Recompute CRC32 over tampered body.
+        var crc: UInt32 = 0xFFFFFFFF
+        let table: [UInt32] = {
+            var t = [UInt32](repeating: 0, count: 256)
+            for i in 0..<256 {
+                var c = UInt32(i)
+                for _ in 0..<8 { c = (c & 1 != 0) ? (0xEDB88320 ^ (c >> 1)) : (c >> 1) }
+                t[i] = c
+            }
+            return t
+        }()
+        for i in 0..<crcRange {
+            crc = (crc >> 8) ^ table[Int((crc ^ UInt32(bytes[i])) & 0xFF)]
+        }
+        let crcLE = (crc ^ 0xFFFFFFFF).littleEndian
+        withUnsafeBytes(of: crcLE) { src in
+            for i in 0..<4 { bytes[crcRange + i] = src[i] }
+        }
+        XCTAssertNil(TrieMatcher.loadValidated(data: bytes),
+                     "node without sentinel must be rejected")
+    }
+
+    // MARK: - Fuzz: random bytes must never crash
+
+    func testFuzzRandomBytesAreRejectedOrMatchHarmlessly() {
+        // Seeded PRNG for reproducibility.
+        var rng = SplitMix64(seed: 0xC0FF_EE_DEAD_BEEF)
+        for _ in 0..<500 {
+            let length = Int(rng.next() % 4096)  // 0..4095 bytes
+            var bytes = Data(count: length)
+            for i in 0..<length {
+                bytes[i] = UInt8(rng.next() & 0xFF)
+            }
+            // Validator must never trap; it returns nil for invalid inputs.
+            let matcher = TrieMatcher.loadValidated(data: bytes)
+            if let matcher = matcher {
+                // If by astronomical chance the random bytes validate as a
+                // real trie, matching must still not crash.
+                _ = matcher.isUnrestricted("yahoo.com")
+                _ = matcher.isUnrestricted("www.ck")
+                _ = matcher.isUnrestricted("")
+            }
+        }
+    }
+
+    func testFuzzMagicOnlyRandomRestIsRejected() {
+        // Bias the fuzz toward "looks like a trie" (correct magic + version)
+        // to exercise validator paths beyond the header.
+        var rng = SplitMix64(seed: 0xDEAD_BEEF_FEED_FACE)
+        for _ in 0..<500 {
+            let length = 28 + Int(rng.next() % 2048)
+            var bytes = Data(count: length)
+            bytes[0] = 0x50; bytes[1] = 0x53; bytes[2] = 0x4C; bytes[3] = 0x54
+            bytes[4] = 2  // claimed version 2
+            for i in 5..<length {
+                bytes[i] = UInt8(rng.next() & 0xFF)
+            }
+            // Forge a plausible byteCount = length.
+            let bc = UInt32(length).littleEndian
+            withUnsafeBytes(of: bc) { src in
+                for i in 0..<4 { bytes[20 + i] = src[i] }
+            }
+            // Validator never traps.
+            _ = TrieMatcher.loadValidated(data: bytes)
+        }
+    }
+
     // MARK: - Parity with embedded rules for a well-known case
 
     func testEmbeddedTrieHandlesWildcardAndExceptionFromRealPSL() {
@@ -266,5 +414,18 @@ final class TrieTests: XCTestCase {
                        "*.ck public suffix, plain anything.ck must be restricted")
         XCTAssertTrue(PublicSuffixList.isUnrestricted("site.anything.ck"),
                       "one level deeper than *.ck is registrable")
+    }
+}
+
+/// Reproducible PRNG for fuzz tests. Not cryptographic.
+private struct SplitMix64 {
+    var state: UInt64
+    init(seed: UInt64) { self.state = seed }
+    mutating func next() -> UInt64 {
+        state = state &+ 0x9E3779B97F4A7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+        z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+        return z ^ (z >> 31)
     }
 }

@@ -117,14 +117,19 @@ public enum TrieBuilder {
 
     static func serialize(root: BuildTrieNode, ruleCount: Int) -> Data {
         var out = Data()
+        // Reserve header (body starts at headerSize).
         out.append(contentsOf: Array(repeating: UInt8(0), count: TrieFormat.headerSize))
         let rootOffset = writeNode(root, into: &out)
         let nodes = nodeCount(root)
+        // Reserve 4 trailing bytes for the CRC32.
+        out.append(contentsOf: [UInt8](repeating: 0, count: TrieFormat.trailerSize))
         let byteCount = UInt32(out.count)
+
+        // Back-patch the header.
         var header = Data()
         header.append(contentsOf: TrieFormat.magic)
         header.append(TrieFormat.version)
-        header.append(0) // flags
+        header.append(0) // flags (reserved)
         header._pslAppendLE(UInt16(0)) // padding
         header._pslAppendLE(rootOffset)
         header._pslAppendLE(UInt32(nodes))
@@ -132,6 +137,14 @@ public enum TrieBuilder {
         header._pslAppendLE(byteCount)
         precondition(header.count == TrieFormat.headerSize)
         out.replaceSubrange(0..<TrieFormat.headerSize, with: header)
+
+        // Compute CRC over [0 ..< byteCount - 4] and write it into the last 4 bytes.
+        let crcRange = Int(byteCount) - TrieFormat.trailerSize
+        let crc = CRC32.checksum(of: out, count: crcRange)
+        var crcLE = crc.littleEndian
+        Swift.withUnsafeBytes(of: &crcLE) { bytes in
+            out.replaceSubrange(crcRange..<crcRange + TrieFormat.trailerSize, with: bytes)
+        }
         return out
     }
 
@@ -164,6 +177,7 @@ public enum TrieBuilder {
         if node.isTerminal { flags |= TrieFormat.flagTerminal }
         if node.isException { flags |= TrieFormat.flagException }
         if node.wildcardChild != nil { flags |= TrieFormat.flagWildcard }
+        out.append(TrieFormat.nodeSentinel)
         out.append(flags)
         out._pslAppendLE(UInt16(sorted.count))
         if node.wildcardChild != nil {
