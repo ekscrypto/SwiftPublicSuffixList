@@ -49,6 +49,24 @@ import FoundationNetworking
 /// if await list.isUnrestricted("example.com") { ... }
 /// ```
 ///
+/// ## Hostname input format (v3.0+)
+///
+/// Hostnames passed to ``isUnrestricted(_:)-6qd5f`` and ``match(_:)-6q0fd``
+/// must be ASCII. IDN labels must be Punycode-encoded (ACE form) by the
+/// caller:
+///
+/// ```swift
+/// // ❌ rejected — raw Unicode fails syntax validation
+/// list.isUnrestricted("example.香港")
+///
+/// // ✅ correct
+/// list.isUnrestricted("example.xn--j6w193g")
+/// ```
+///
+/// Rule inputs to ``InitializerSource/rules(_:)`` may still be in UTF-8
+/// form — the builder runs each label through an RFC 3492 Punycode encoder
+/// at build time.
+///
 /// ## Thread safety
 ///
 /// All public methods are thread-safe. The trie can be replaced at runtime
@@ -120,6 +138,11 @@ public final class PublicSuffixList {
         /// Build an in-memory trie from the supplied `[[String]]` rules. Each
         /// inner array is a rule in leftmost-first order; `*` and `!` carry
         /// the usual PSL semantics.
+        ///
+        /// Labels may be supplied in UTF-8 form (matching the PSL .dat text
+        /// format) — the builder runs each one through Punycode so the
+        /// serialized trie stores only ACE-form ASCII bytes. Pure-ASCII
+        /// labels pass through verbatim.
         case rules([[String]])
 
         /// Fetch the latest PSL text from publicsuffix.org and build a trie
@@ -292,6 +315,10 @@ public final class PublicSuffixList {
     /// Matches the candidate against the rules and returns a ``Match`` with
     /// the prevailing rule and restriction flag, or `nil` when the candidate
     /// is syntactically invalid or does not match any rule.
+    ///
+    /// - Important: The candidate must be in ASCII / ACE (Punycode) form;
+    ///   see the type-level documentation on hostname input format. Raw
+    ///   Unicode inputs return `nil`.
     public func match(_ candidate: String) -> Match? {
         accessLock.lock()
         let m = matcher
