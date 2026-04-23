@@ -20,9 +20,14 @@ let package = Package(
         .target(
             name: "SwiftPublicSuffixList",
             dependencies: [],
+            exclude: ["registry.json"],
             resources: [
-                .process("registry.json")
+                .copy("registry.trie")
             ]),
+        .executableTarget(
+            name: "SuffixLoadBench",
+            dependencies: ["SwiftPublicSuffixList"],
+            exclude: ["Resources"]),
         .testTarget(
             name: "SwiftPublicSuffixListTests",
             dependencies: ["SwiftPublicSuffixList"]),

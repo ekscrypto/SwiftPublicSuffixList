@@ -31,12 +31,12 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet Sources/SwiftPublicSuffixList/registry.json; then
+          if git diff --quiet Sources/SwiftPublicSuffixList/registry.json Sources/SwiftPublicSuffixList/registry.trie; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No changes detected in registry.json"
+            echo "No changes detected"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "Changes detected in registry.json"
+            echo "Changes detected in registry.json / registry.trie"
           fi
 
       - name: Analyze suffix list changes
@@ -172,7 +172,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Sources/SwiftPublicSuffixList/registry.json README.md CHANGELOG.md
+          git add Sources/SwiftPublicSuffixList/registry.json Sources/SwiftPublicSuffixList/registry.trie README.md CHANGELOG.md
           git commit -m "Update public suffix list - v$NEW_VERSION"
 
       - name: Create and push tag
