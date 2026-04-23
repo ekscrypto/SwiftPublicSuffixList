@@ -6,127 +6,133 @@ This library is a Swift implementation of the necessary code to check a domain n
 
 Restricted domains should not be allowed to set cookies, directly host websites or send/receive emails.
 
-As of January 2022, the list contained over 9k entries.
+As of 2026, the list contains over 10k entries.
 
-## Performance Considerations
-Due to the high number of entries in the Public Suffix list (>9k), you may want to pre-load on a background thread the
-PublicSuffixRulesRegistry.rules soon after launching the app.  Initial loading of the list may require between 100ms to 900ms depending on the host device.
+## Performance
+
+The library ships a pre-compiled binary trie (`registry.trie`) that is memory-mapped at first use. There is no JSON parsing and no per-rule allocation — load cost is effectively the time to `mmap` a ~150 KB file (well under 1 ms on any supported device).
+
+Matching walks the trie by label from TLD inward. A single `isUnrestricted(_:)` call runs in microseconds and does not allocate heap memory proportional to the rule set, so checking thousands of domains in a loop is a non-issue.
+
+This replaces the pre-v2 behaviour where loading the JSON-backed rule set and scanning it linearly could take up to ~1 s on a mobile device.
 
 ## Regular Updates Recommended
-* The [Public Suffix List](https://publicsuffix.org) is updated regularly, if your application is published regularly you may be fine by simply pulling the latest version of the SwiftPublicSuffixList library.  However it is recommended to have
-your application retrieve the latest copy of the public suffix list on a somewhat regular basis.
+
+The [Public Suffix List](https://publicsuffix.org) is updated regularly. Pulling the latest version of this library is usually sufficient; for applications that need the freshest list between releases, fetch it at runtime (see below).
 
 LAST UPDATED: 2026-04-21 03:10:05 UTC
 
 ### Shell Command
-You can run the Utilities/update-suffix.swift from the command line to download & process the text file containing the Public Suffix List and re-generate the PublicSuffixRulesRegistry.swift file.
 
-    # swift update-suffix.swift
+Run `Utilities/update-suffix.swift` to download the latest Public Suffix List and regenerate both `registry.json` (kept for CI diffs) and `registry.trie` (the runtime resource).
 
-### From Swift at runtime:
-In order to update the PublicSuffixList at runtime, you will want to make sure you use the instance of PublicSuffixList rather than the static functions. You can do
-this using:
+    cd Utilities
+    swift update-suffix.swift
+
+### Runtime updates
+
+Use an instance of `PublicSuffixList` (rather than the static helpers) when you need to update the rules at runtime.
 
     import SwiftPublicSuffixList
-    
-    let pathToLocalRegistry = FileManager.default
+
+    let cacheUrl = FileManager.default
         .urls(for: .cachesDirectory, in: .userDomainMask).first!
-        .appendingPathComponent("public-suffix-list.json")
+        .appendingPathComponent("public-suffix-list.trie")
 
-    let publicSuffixList = await PublicSuffixList.list(from: .filePath(pathToLocalRegistry))
+    let publicSuffixList = await PublicSuffixList.list(from: .filePath(cacheUrl.path))
 
-To request a registry update:
+Request a registry update from publicsuffix.org:
 
     let success: Bool = await publicSuffixList.updateUsingOnlineRegistry()
 
-To save the updated registry:
+Persist the updated rules for next launch (writes the binary trie format):
 
-    try publicSuffixList.export(to: pathToLocalRegistry)
+    try publicSuffixList.export(to: cacheUrl.path)
 
 ## Classes & Usage
 
 ### PublicSuffixList
 
-#### .match(_ candidate: String, rules: [[String]]) -> Match?
+#### .match(_ candidate: String) -> Match?
 
     import SwiftPublicSuffixList
-    
-Using the default built-in Public Suffix List rules
+
+Using the default built-in Public Suffix List rules:
 
     if let match = PublicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
+        // match.prevailingRule == ["com"]
     }
-    
-    // or using a PublicSuffixList instance…    
+
+    // or using a PublicSuffixList instance…
     let publicSuffixList = PublicSuffixList()
     if let match = publicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
     }
-    
+
     // or the async equivalent
     let publicSuffixList = await PublicSuffixList.list()
-    if let match = await publicSuffixList.match("yahoo.com") {
+    if let match = publicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
     }
 
-Using a single custom validation rule, requiring domains to
-end with .com but allow any domain within the .com TLD
+Using a single custom validation rule, requiring domains to end with `.com` but allowing any domain within the `.com` TLD:
 
     if let match = PublicSuffixList.match("yahoo.com", rules: [["com"]]) {
         // match.isRestricted == false
         // match.prevailingRule == ["com"]
-        // match.matchedRules == [["com"]]
     }
-    
+
     // or using a PublicSuffixList instance…
-    
     let publicSuffixList = PublicSuffixList(source: .rules([["com"]]))
     if let match = publicSuffixList.match("yahoo.com") {
         // match.isRestricted == false
         // match.prevailingRule == ["com"]
-        // match.matchedRules == [["com"]]
     }
 
-Using a single custom validation rule, restriction domains that
-end with .com but allowing any subdomain    
+Using a single custom validation rule that restricts domains ending with `.com` but allows any subdomain:
 
     if let match = PublicSuffixList.match("yahoo.com", rules: [["*","com"]]) {
-       // yahoo.com matches \*.com and so it is restricted
-       // match.isRestricted == true
-       // match.prevailingRule == ["*","com"]
-       // match.matchedRules == [["*","com"]]
+        // yahoo.com matches *.com and so it is restricted
+        // match.isRestricted == true
+        // match.prevailingRule == ["com"]  // wildcard edge walked; rule body is the labels matched
     }
 
-    if let match = PublicSuffixList.match("www.yahoo.com", [["*","com"]]) {
-       // While yahoo.com matches \*.com and is restricted, there are no
-       // restrictions for subdomains such as www.yahoo.com
-       // match.isRestricted == false
-       // match.prevailingRule == ["*","com"]
-       // match.matchedRules == [["*","com"]]
+    if let match = PublicSuffixList.match("www.yahoo.com", rules: [["*","com"]]) {
+        // yahoo.com matches *.com and is restricted, but www.yahoo.com has one
+        // more label than the rule, so it's registrable.
+        // match.isRestricted == false
     }
 
-Defining an exception to a more generic rule
+Defining an exception to a more generic rule:
 
     if let match = PublicSuffixList.match("yahoo.com", rules: [["*","com"],["!yahoo","com"]]) {
-        // Even if yahoo.com matches *.com, since there is an exception
-        // for this domain (defined using !) it will not be restricted
+        // The exception (!yahoo.com) overrides the *.com rule.
         // match.isRestricted == false
         // match.prevailingRule == ["!yahoo","com"]
-        // match.matchedRules == [["*","com"],["!yahoo","com"]]
     }
 
-#### .isUnrestricted(_ candiate: String, rules: [[String]]) -> Bool
+#### .isUnrestricted(_ candidate: String) -> Bool
 
-Convenience function that will attempt to retrieve a match then return the value of !match.isRestricted.  Will return false if no match was found.
+Convenience that returns `!match.isRestricted`, or `false` if no rule matches or the host is syntactically invalid. This is the fastest path — zero heap allocations proportional to the rule set.
 
     if PublicSuffixList.isUnrestricted("yahoo.com") {
-        // true! yahoo.com is unrestricted by default
-    }
-    
-    // or using PublicSuffixList instance…
-    
-    let publicSuffixList = PublicSuffixList()
-    if publicSuffixList.isUnrestricted("yahoo.com") {
-        // true! yahoo.com is unrestricted by default
+        // true — yahoo.com is unrestricted by default
     }
 
+    // or using a PublicSuffixList instance…
+    let publicSuffixList = PublicSuffixList()
+    if publicSuffixList.isUnrestricted("yahoo.com") {
+        // true — yahoo.com is unrestricted by default
+    }
+
+### Match
+
+`Match` exposes only two fields — the prevailing rule and whether the candidate is restricted:
+
+    public struct Match {
+        public let prevailingRule: [String]
+        public let isRestricted: Bool
+    }
+
+(The legacy `matchedRules` field was removed in v2; it was never part of the public-suffix algorithm and its construction cost dominated match time.)

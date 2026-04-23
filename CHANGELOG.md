@@ -7,8 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Breaking:** Replaced the JSON-backed rule loader and linear matcher with a memory-mapped binary trie (`registry.trie`). Load time drops by ~140× and per-match time by ~1700× in release builds; on an iPhone the library's pre-v2 ~1 s first-use cost effectively disappears.
+- **Breaking:** `Match` struct simplified to `prevailingRule: [String]` and `isRestricted: Bool`. `matchedRules` is gone — it was never part of the PSL algorithm and its construction dominated match time.
+- `Utilities/update-suffix.swift` now emits both `registry.json` (kept in the repo as the canonical diff artifact for the nightly workflow) and `registry.trie` (the runtime resource). The CLI entry point is unchanged: `swift update-suffix.swift`.
+
 ### Added
-- Comprehensive DocC documentation for all public APIs
+- `TrieFormat`, `TrieBuilder`, `TrieMatcher` in the library target. `TrieBuilder.buildAndSerialize(rules:)` is public so callers and tooling can produce trie bytes.
+- `Sources/SuffixLoadBench/` — standalone executable target that benchmarks the library's load and match performance across multiple candidate formats. Run `swift run -c release SuffixLoadBench bench`.
+- Comprehensive DocC documentation for all public APIs.
+
+### Removed
+- **Breaking:** `PublicSuffixRulesRegistry` (and its `rules: [[String]]` static accessor).
+- **Breaking:** `PublicSuffixMatcher` (the linear-scan matcher).
+- **Breaking:** `PublicSuffixList.rules: [[String]]` — internal storage is now a binary trie, not an array of label arrays. Callers that need custom rules should continue to use `PublicSuffixList(source: .rules([[String]]))`, which builds an in-memory trie.
 
 ## [1.1.40] - 2026-04-21
 

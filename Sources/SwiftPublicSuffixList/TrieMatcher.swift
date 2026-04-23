@@ -9,15 +9,37 @@
 
 import Foundation
 
-/// Returned by `TrieMatcher.match(_:)`.
+/// Result of matching a domain against a Public Suffix List.
+///
+/// Returned by ``PublicSuffixList/match(_:)-6q0fd`` (and its overloads), as
+/// well as directly by `TrieMatcher.match(_:)`.
+///
+/// ```swift
+/// if let m = PublicSuffixList.match("bbc.co.uk") {
+///     m.prevailingRule   // ["co", "uk"]
+///     m.isRestricted     // false — bbc.co.uk is registrable
+/// }
+///
+/// if let m = PublicSuffixList.match("www.ck") {
+///     m.prevailingRule   // ["!www", "ck"] — exception rule
+///     m.isRestricted     // false — the exception overrides *.ck
+/// }
+/// ```
+///
+/// The legacy `matchedRules: [[String]]` field was removed in v2; it was
+/// never part of the PSL algorithm and its construction dominated match
+/// time. If you need every rule that would have applied, iterate the rule
+/// set yourself — but in practice only the prevailing rule is semantically
+/// meaningful.
 public struct PublicSuffixMatch {
-    /// The rule that determined the outcome, with labels in the same
-    /// right-to-left order used by the rule set. Exception rules include the
-    /// leading `!` on the leftmost label.
+    /// The rule that determined the outcome, in the same leftmost-first
+    /// order used when rules are supplied to ``PublicSuffixList``. Exception
+    /// rules include the leading `!` on the leftmost label.
     public let prevailingRule: [String]
 
     /// `true` when the candidate *is* a public suffix (and therefore should
-    /// not be treated as a registrable domain).
+    /// not be treated as a registrable domain, e.g. should not be allowed to
+    /// set cookies or host a site).
     public let isRestricted: Bool
 }
 
