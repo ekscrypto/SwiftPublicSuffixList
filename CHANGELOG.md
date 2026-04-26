@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.2] - 2026-04-26
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.atlassian-3p-us-gov-mod.com`
+- `*.atlassian-3p.com`
+- `*.atlassian-isolated-3p.com`
+- `deployagent.space`
+- `piebox.site`
+
 ## [3.1.1] - 2026-04-25
 
 ### Changed
@@ -741,7 +759,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.1...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.2...HEAD
+[3.1.2]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.0...3.1.1
 [2.0.2]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.0...2.0.1
