@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.3] - 2026-04-29
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `vicp.fun`
+- `yicp.fun`
+- `zicp.fun`
+
 ## [3.1.2] - 2026-04-26
 
 ### Changed
@@ -759,7 +775,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.2...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.3...HEAD
+[3.1.3]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.2...3.1.3
 [3.1.2]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.0...3.1.1
 [2.0.2]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/2.0.1...2.0.2
