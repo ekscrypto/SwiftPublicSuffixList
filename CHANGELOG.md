@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.4] - 2026-05-07
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `on.crisp.email`
+
 ## [3.1.3] - 2026-04-29
 
 ### Changed
@@ -775,7 +789,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.3...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.4...HEAD
+[3.1.4]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.3...3.1.4
 [3.1.3]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.2...3.1.3
 [3.1.2]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.1...3.1.2
 [3.1.1]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.0...3.1.1
