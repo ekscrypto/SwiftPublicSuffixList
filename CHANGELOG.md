@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.7] - 2026-05-15
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `t3.storage.dev`
+- `t3.storageapi.dev`
+
 ## [3.1.6] - 2026-05-14
 
 ### Changed
@@ -823,7 +838,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.6...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.7...HEAD
+[3.1.7]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.6...3.1.7
 [3.1.6]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.5...3.1.6
 [3.1.5]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.4...3.1.5
 [3.1.4]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.3...3.1.4
