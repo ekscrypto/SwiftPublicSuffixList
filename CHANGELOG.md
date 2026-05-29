@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.8] - 2026-05-29
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 4 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `ai.id`
+- `book.online`
+- `canva.link`
+- `khsj.cn`
+
+### Removed Suffixes
+
+- `bookonline.app`
+- `reserve-online.com`
+
 ## [3.1.7] - 2026-05-15
 
 ### Changed
@@ -838,7 +860,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.7...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.8...HEAD
+[3.1.8]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.7...3.1.8
 [3.1.7]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.6...3.1.7
 [3.1.6]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.5...3.1.6
 [3.1.5]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.4...3.1.5
