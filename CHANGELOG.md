@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.11] - 2026-06-23
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `mkm.fan`
+
 ## [3.1.10] - 2026-06-11
 
 ### Changed
@@ -888,7 +902,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.10...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...HEAD
+[3.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.10...3.1.11
 [3.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.9...3.1.10
 [3.1.9]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.8...3.1.9
 [3.1.8]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.7...3.1.8
