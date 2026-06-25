@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.12] - 2026-06-25
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 16 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `ddns.berlin`
+- `ddns.wtf`
+- `ddnssec.de`
+- `dnshome.at`
+- `dnshome.cloud`
+- `dnshome.eu`
+- `dnshome.it`
+- `dyn.now`
+- `dyndnssec.de`
+- `heimdns.de`
+- `heimdns.online`
+- `puter.app`
+- `puter.site`
+- `puter.work`
+- `resolve.bar`
+- `srvdns.de`
+
 ## [3.1.11] - 2026-06-23
 
 ### Changed
@@ -902,7 +931,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...HEAD
+[3.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...3.1.12
 [3.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.10...3.1.11
 [3.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.9...3.1.10
 [3.1.9]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.8...3.1.9
