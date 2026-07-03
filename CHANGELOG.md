@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.13] - 2026-07-03
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `mayfirst.org`
+
 ## [3.1.12] - 2026-06-25
 
 ### Changed
@@ -931,7 +945,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...HEAD
+[3.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...3.1.13
 [3.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...3.1.12
 [3.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.10...3.1.11
 [3.1.10]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.9...3.1.10
