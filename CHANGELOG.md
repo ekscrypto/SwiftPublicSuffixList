@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.14] - 2026-07-07
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `grok.me`
+
+### Removed Suffixes
+
+- `biz.at`
+- `info.at`
+
 ## [3.1.13] - 2026-07-03
 
 ### Changed
@@ -945,7 +964,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...HEAD
+[3.1.14]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...3.1.14
 [3.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...3.1.13
 [3.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...3.1.12
 [3.1.11]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.10...3.1.11
