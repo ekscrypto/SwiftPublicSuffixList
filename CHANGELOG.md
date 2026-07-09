@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.15] - 2026-07-09
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `dev.cv`
+- `sch.ac`
+- `store.cv`
+
 ## [3.1.14] - 2026-07-07
 
 ### Changed
@@ -964,7 +980,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.15...HEAD
+[3.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...3.1.15
 [3.1.14]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...3.1.14
 [3.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...3.1.13
 [3.1.12]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.11...3.1.12
