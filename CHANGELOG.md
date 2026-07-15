@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.16] - 2026-07-15
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 21 suffix(es)
+- Removed 3 suffix(es)
+
+### Added Suffixes
+
+- `aero.in`
+- `alumni.in`
+- `audnedal.no`
+- `cyb.ge`
+- `gielda.no`
+- `hamarøy.no`
+- `home64.de`
+- `ipv64.de`
+- `ipv64.net`
+- `karlsøy.no`
+- `llc.ge`
+- `mygov.scot`
+- `online.ge`
+- `re.no`
+- `school.in`
+- `suohkan.no`
+- `tjielte.no`
+- `tnx.ge`
+- `ub.in`
+- `uenorge.no`
+- ... and 1 more
+
+### Removed Suffixes
+
+- `ac.tj`
+- `audnedaln.no`
+- `frei.no`
+
 ## [3.1.15] - 2026-07-09
 
 ### Changed
@@ -980,7 +1020,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.15...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.16...HEAD
+[3.1.16]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.15...3.1.16
 [3.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...3.1.15
 [3.1.14]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...3.1.14
 [3.1.13]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.12...3.1.13
