@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.17] - 2026-07-22
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 4 suffix(es)
+- Removed 12 suffix(es)
+
+### Added Suffixes
+
+- `su.it`
+- `sud-sardegna.it`
+- `sudsardegna.it`
+- `verbano-cusio-ossola.it`
+
+### Removed Suffixes
+
+- `*.cryptonomic.net`
+- `api.stdlib.com`
+- `aquila.it`
+- `dh.bytemark.co.uk`
+- `hzc.io`
+- `onfabrica.com`
+- `protonet.io`
+- `storj.farm`
+- `trentinosudtirol.it`
+- `uk0.bigv.io`
+- `valdaosta.it`
+- `vm.bytemark.co.uk`
+
 ## [3.1.16] - 2026-07-15
 
 ### Changed
@@ -1020,7 +1052,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.16...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.17...HEAD
+[3.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.16...3.1.17
 [3.1.16]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.15...3.1.16
 [3.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...3.1.15
 [3.1.14]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.13...3.1.14
