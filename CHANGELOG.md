@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.18] - 2026-07-24
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `playcode.site`
+
+### Removed Suffixes
+
+- `deta.app`
+- `deta.dev`
+
 ## [3.1.17] - 2026-07-22
 
 ### Changed
@@ -1052,7 +1071,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.17...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.18...HEAD
+[3.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.17...3.1.18
 [3.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.16...3.1.17
 [3.1.16]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.15...3.1.16
 [3.1.15]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.14...3.1.15
