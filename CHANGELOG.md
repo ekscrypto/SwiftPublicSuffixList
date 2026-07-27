@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.20] - 2026-07-27
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `*.on-acorn.io`
+
 ## [3.1.19] - 2026-07-26
 
 ### Changed
@@ -1085,7 +1099,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.19...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.20...HEAD
+[3.1.20]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.19...3.1.20
 [3.1.19]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.18...3.1.19
 [3.1.18]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.17...3.1.18
 [3.1.17]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.16...3.1.17
