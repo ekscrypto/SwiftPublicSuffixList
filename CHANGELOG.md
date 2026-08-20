@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.23] - 2026-08-20
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 1 suffix(es)
+
+### Added Suffixes
+
+- `claudeusercontent.com`
+- `frame.claudeusercontent.com`
+
+### Removed Suffixes
+
+- `aivencloud.com`
+
 ## [3.1.22] - 2026-08-18
 
 ### Changed
@@ -1143,7 +1162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.22...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.23...HEAD
+[3.1.23]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.22...3.1.23
 [3.1.22]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.21...3.1.22
 [3.1.21]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.20...3.1.21
 [3.1.20]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.19...3.1.20
