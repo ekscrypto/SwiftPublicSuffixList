@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.24] - 2026-09-02
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 4 suffix(es)
+- Removed 5 suffix(es)
+
+### Added Suffixes
+
+- `*.eth.limo`
+- `*.eth.link`
+- `canva-code.cn`
+- `tmp.now`
+
+### Removed Suffixes
+
+- `demo.datacenter.fi`
+- `paas.datacenter.fi`
+- `u2-local.xnbay.com`
+- `u2.xnbay.com`
+- `xnbay.com`
+
 ## [3.1.23] - 2026-08-20
 
 ### Changed
@@ -1162,7 +1187,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.23...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.24...HEAD
+[3.1.24]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.23...3.1.24
 [3.1.23]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.22...3.1.23
 [3.1.22]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.21...3.1.22
 [3.1.21]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.20...3.1.21
