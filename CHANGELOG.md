@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.26] - 2026-09-04
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 72 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.p.azurewebsites.net`
+- `australiacentral-01.azurewebsites.net`
+- `australiacentral2-01.azurewebsites.net`
+- `australiaeast-01.azurewebsites.net`
+- `australiasoutheast-01.azurewebsites.net`
+- `austriaeast-01.azurewebsites.net`
+- `belgiumcentral-01.azurewebsites.net`
+- `brazilsouth-01.azurewebsites.net`
+- `brazilsoutheast-01.azurewebsites.net`
+- `canadacentral-01.azurewebsites.net`
+- `canadaeast-01.azurewebsites.net`
+- `centralindia-01.azurewebsites.net`
+- `centralus-01.azurewebsites.net`
+- `centraluseuap-01.azurewebsites.net`
+- `chilecentral-01.azurewebsites.net`
+- `denmarkeast-01.azurewebsites.net`
+- `eastasia-01.azurewebsites.net`
+- `eastasiastage-01.azurewebsites.net`
+- `eastus-01.azurewebsites.net`
+- `eastus2-01.azurewebsites.net`
+- ... and 52 more
+
 ## [3.1.25] - 2026-09-03
 
 ### Changed
@@ -1202,7 +1236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.25...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.26...HEAD
+[3.1.26]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.25...3.1.26
 [3.1.25]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.24...3.1.25
 [3.1.24]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.23...3.1.24
 [3.1.23]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.22...3.1.23
