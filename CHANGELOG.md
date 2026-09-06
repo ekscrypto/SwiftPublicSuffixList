@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.27] - 2026-09-06
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `ia.bo`
+- `opencloud.me`
+
 ## [3.1.26] - 2026-09-04
 
 ### Changed
@@ -1236,7 +1251,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.26...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.27...HEAD
+[3.1.27]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.26...3.1.27
 [3.1.26]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.25...3.1.26
 [3.1.25]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.24...3.1.25
 [3.1.24]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.23...3.1.24
