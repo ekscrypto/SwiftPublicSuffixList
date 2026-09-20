@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.30] - 2026-09-20
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `hosted-by-files.com`
+
 ## [3.1.29] - 2026-09-19
 
 ### Changed
@@ -1285,7 +1299,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.29...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.30...HEAD
+[3.1.30]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.29...3.1.30
 [3.1.29]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.28...3.1.29
 [3.1.28]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.27...3.1.28
 [3.1.27]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.26...3.1.27
