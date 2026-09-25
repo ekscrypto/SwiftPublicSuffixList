@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.33] - 2026-09-25
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 4 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `glideos.app`
+- `iqhs.pl`
+- `site.hosting-cluster.nl`
+- `site.webhosting.be`
+
 ## [3.1.32] - 2026-09-22
 
 ### Changed
@@ -1330,7 +1347,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.32...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.33...HEAD
+[3.1.33]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.32...3.1.33
 [3.1.32]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.31...3.1.32
 [3.1.31]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.30...3.1.31
 [3.1.30]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.29...3.1.30
