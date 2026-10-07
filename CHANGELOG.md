@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.35] - 2026-10-07
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 28 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.ap-east-1.cs.amazonlightsail.com`
+- `*.ap-northeast-1.cs.amazonlightsail.com`
+- `*.ap-northeast-2.cs.amazonlightsail.com`
+- `*.ap-south-1.cs.amazonlightsail.com`
+- `*.ap-southeast-1.cs.amazonlightsail.com`
+- `*.ap-southeast-2.cs.amazonlightsail.com`
+- `*.ap-southeast-3.cs.amazonlightsail.com`
+- `*.ap-southeast-5.cs.amazonlightsail.com`
+- `*.ca-central-1.cs.amazonlightsail.com`
+- `*.eu-central-1.cs.amazonlightsail.com`
+- `*.eu-north-1.cs.amazonlightsail.com`
+- `*.eu-south-2.cs.amazonlightsail.com`
+- `*.eu-west-1.cs.amazonlightsail.com`
+- `*.eu-west-2.cs.amazonlightsail.com`
+- `*.eu-west-3.cs.amazonlightsail.com`
+- `*.sa-east-1.cs.amazonlightsail.com`
+- `*.us-east-1.cs.amazonlightsail.com`
+- `*.us-east-2.cs.amazonlightsail.com`
+- `*.us-west-2.cs.amazonlightsail.com`
+- `amazonlightsail.com`
+- ... and 8 more
+
 ## [3.1.34] - 2026-10-02
 
 ### Changed
@@ -1361,7 +1395,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.34...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.35...HEAD
+[3.1.35]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.34...3.1.35
 [3.1.34]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.33...3.1.34
 [3.1.33]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.32...3.1.33
 [3.1.32]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.31...3.1.32
