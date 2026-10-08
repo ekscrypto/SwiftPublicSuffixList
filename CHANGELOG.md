@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.36] - 2026-10-08
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 2 suffix(es)
+- Removed 27 suffix(es)
+
+### Added Suffixes
+
+- `*.replit.dev`
+- `*.teams.replit.dev`
+
+### Removed Suffixes
+
+- `archer.replit.dev`
+- `bones.replit.dev`
+- `canary.replit.dev`
+- `global.replit.dev`
+- `hacker.replit.dev`
+- `id.replit.dev`
+- `janeway.replit.dev`
+- `kim.replit.dev`
+- `kira.replit.dev`
+- `kirk.replit.dev`
+- `odo.replit.dev`
+- `paris.replit.dev`
+- `picard.replit.dev`
+- `pike.replit.dev`
+- `prerelease.replit.dev`
+- `reed.replit.dev`
+- `replit.dev`
+- `riker.replit.dev`
+- `sisko.replit.dev`
+- `spock.replit.dev`
+- ... and 7 more
+
 ## [3.1.35] - 2026-10-07
 
 ### Changed
@@ -1395,7 +1434,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.35...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.36...HEAD
+[3.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.35...3.1.36
 [3.1.35]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.34...3.1.35
 [3.1.34]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.33...3.1.34
 [3.1.33]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.32...3.1.33
