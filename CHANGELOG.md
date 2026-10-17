@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.37] - 2026-10-17
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 65 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `*.airflow.ap-southeast-7.on.aws`
+- `consent-portal.bedrock-agentcore.ap-northeast-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-northeast-2.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-south-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-south-2.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-southeast-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-southeast-2.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-southeast-5.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ap-southeast-7.amazonaws.com`
+- `consent-portal.bedrock-agentcore.ca-central-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-central-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-north-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-south-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-south-2.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-west-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-west-2.amazonaws.com`
+- `consent-portal.bedrock-agentcore.eu-west-3.amazonaws.com`
+- `consent-portal.bedrock-agentcore.sa-east-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.us-east-1.amazonaws.com`
+- `consent-portal.bedrock-agentcore.us-east-2.amazonaws.com`
+- ... and 45 more
+
+### Removed Suffixes
+
+- `knightpoint.systems`
+- `perspecta.cloud`
+
 ## [3.1.36] - 2026-10-08
 
 ### Changed
@@ -1434,7 +1473,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.36...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.37...HEAD
+[3.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.36...3.1.37
 [3.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.35...3.1.36
 [3.1.35]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.34...3.1.35
 [3.1.34]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.33...3.1.34
