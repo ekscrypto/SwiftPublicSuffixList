@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.39] - 2026-10-21
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 2 suffix(es)
+
+### Removed Suffixes
+
+- `aliases121.com`
+- `oya.to`
+
 ## [3.1.38] - 2026-10-18
 
 ### Changed
@@ -1487,7 +1502,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.38...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.39...HEAD
+[3.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.38...3.1.39
 [3.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.37...3.1.38
 [3.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.36...3.1.37
 [3.1.36]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.35...3.1.36
