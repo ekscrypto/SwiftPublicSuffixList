@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.40] - 2026-10-23
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.ztna-dingtalk.com`
+
 ## [3.1.39] - 2026-10-21
 
 ### Changed
@@ -1502,7 +1516,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.39...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.40...HEAD
+[3.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.39...3.1.40
 [3.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.38...3.1.39
 [3.1.38]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.37...3.1.38
 [3.1.37]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.36...3.1.37
