@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.42] - 2026-11-05
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `pagelemon.dev`
+
 ## [3.1.41] - 2026-11-01
 
 ### Changed
@@ -1530,7 +1544,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.41...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...HEAD
+[3.1.42]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.41...3.1.42
 [3.1.41]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.40...3.1.41
 [3.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.39...3.1.40
 [3.1.39]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.38...3.1.39
