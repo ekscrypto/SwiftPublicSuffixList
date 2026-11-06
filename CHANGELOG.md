@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.43] - 2026-11-06
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 9 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.apps.grok.bot`
+- `*.pages.grok.bot`
+- `auth.lovable.app`
+- `docsflowy.site`
+- `linkyhost.page`
+- `manus.space`
+- `sanity.run`
+- `sanity.studio`
+- `sliplane.app`
+
 ## [3.1.42] - 2026-11-05
 
 ### Changed
@@ -1544,7 +1566,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...HEAD
+[3.1.43]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...3.1.43
 [3.1.42]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.41...3.1.42
 [3.1.41]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.40...3.1.41
 [3.1.40]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.39...3.1.40
