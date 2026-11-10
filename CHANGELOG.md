@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.44] - 2026-11-10
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `ad.vn`
+- `ap.vn`
+- `on.vn`
+- `prod.page`
+- `ship.place`
+
 ## [3.1.43] - 2026-11-06
 
 ### Changed
@@ -1566,7 +1584,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.44...HEAD
+[3.1.44]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...3.1.44
 [3.1.43]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...3.1.43
 [3.1.42]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.41...3.1.42
 [3.1.41]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.40...3.1.41
