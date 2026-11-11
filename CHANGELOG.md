@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.45] - 2026-11-11
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `abyme.dev`
+- `cloudzyro.app`
+- `gov.de`
+
 ## [3.1.44] - 2026-11-10
 
 ### Changed
@@ -1584,7 +1600,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.44...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.45...HEAD
+[3.1.45]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.44...3.1.45
 [3.1.44]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...3.1.44
 [3.1.43]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...3.1.43
 [3.1.42]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.41...3.1.42
