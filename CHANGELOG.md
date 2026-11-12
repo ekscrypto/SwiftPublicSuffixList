@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.46] - 2026-11-12
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 1 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `vibekit.page`
+
 ## [3.1.45] - 2026-11-11
 
 ### Changed
@@ -1600,7 +1614,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.45...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.46...HEAD
+[3.1.46]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.45...3.1.46
 [3.1.45]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.44...3.1.45
 [3.1.44]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...3.1.44
 [3.1.43]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.42...3.1.43

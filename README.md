@@ -39,7 +39,7 @@ If your input is a Unicode hostname, convert it with `PublicSuffixList.ace(_:)` 
 
 The [Public Suffix List](https://publicsuffix.org) is updated regularly. Pulling the latest version of this library is usually sufficient; for applications that need the freshest list between releases, fetch it at runtime (see below).
 
-LAST UPDATED: 2026-11-11 08:58:24 UTC
+LAST UPDATED: 2026-11-12 09:25:44 UTC
 
 ### Shell Command
 
