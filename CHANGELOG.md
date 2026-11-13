@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.47] - 2026-11-13
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `cloud.modelence.app`
+- `medusajs.site`
+- `modelence.app`
+- `rwx.run`
+- `sandbox.modelence.app`
+
 ## [3.1.46] - 2026-11-12
 
 ### Changed
@@ -1614,7 +1632,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.46...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.47...HEAD
+[3.1.47]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.46...3.1.47
 [3.1.46]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.45...3.1.46
 [3.1.45]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.44...3.1.45
 [3.1.44]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.43...3.1.44
