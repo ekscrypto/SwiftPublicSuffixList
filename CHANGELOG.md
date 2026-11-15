@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.49] - 2026-11-15
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 21 suffix(es)
+- Removed 2 suffix(es)
+
+### Added Suffixes
+
+- `agilevibes.app`
+- `bearly.sh`
+- `ddns.ge`
+- `dns.army`
+- `dns.navy`
+- `mymagic.page`
+- `myoxypages.com`
+- `ninjaneer-sites.com`
+- `omgs.page`
+- `reliantlabs.dev`
+- `reliantpreview.dev`
+- `sail.box`
+- `sites.reliantlabs.dev`
+- `sm.run`
+- `space.fast`
+- `v6.army`
+- `v6.navy`
+- `v6.rocks`
+- `view.fast`
+- `voati.host`
+- ... and 1 more
+
+### Removed Suffixes
+
+- `imagine-proxy.work`
+- `imagine.diy`
+
 ## [3.1.48] - 2026-11-14
 
 ### Changed
@@ -1650,7 +1689,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.48...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.49...HEAD
+[3.1.49]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.48...3.1.49
 [3.1.48]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.47...3.1.48
 [3.1.47]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.46...3.1.47
 [3.1.46]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.45...3.1.46
