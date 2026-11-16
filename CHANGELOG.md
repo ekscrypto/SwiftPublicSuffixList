@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.50] - 2026-11-16
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 9 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `apps.devs.ai`
+- `ceero.site`
+- `co.fo`
+- `com.fo`
+- `ginta.page`
+- `loc.cc`
+- `terramind.io`
+- `wz.io`
+- `wz.org`
+
 ## [3.1.49] - 2026-11-15
 
 ### Changed
@@ -1689,7 +1711,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.49...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.50...HEAD
+[3.1.50]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.49...3.1.50
 [3.1.49]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.48...3.1.49
 [3.1.48]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.47...3.1.48
 [3.1.47]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.46...3.1.47
