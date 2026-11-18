@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.52] - 2026-11-18
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 8 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `fastedge.app`
+- `gcorecdn.com`
+- `kliv.site`
+- `mailerpage.io`
+- `nippy.site`
+- `prod.enter.pro`
+- `subscribepage.io`
+- `uncld.dev`
+
 ## [3.1.51] - 2026-11-17
 
 ### Changed
@@ -1726,7 +1747,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.51...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...HEAD
+[3.1.52]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.51...3.1.52
 [3.1.51]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.50...3.1.51
 [3.1.50]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.49...3.1.50
 [3.1.49]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.48...3.1.49
