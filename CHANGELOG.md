@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.53] - 2026-11-20
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 4 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.prairielearn-user-content.com`
+- `kz.ci`
+- `pvf.cc`
+- `xyz.ci`
+
 ## [3.1.52] - 2026-11-18
 
 ### Changed
@@ -1747,7 +1764,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.53...HEAD
+[3.1.53]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...3.1.53
 [3.1.52]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.51...3.1.52
 [3.1.51]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.50...3.1.51
 [3.1.50]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.49...3.1.50
