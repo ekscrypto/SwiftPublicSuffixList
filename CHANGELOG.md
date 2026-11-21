@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.54] - 2026-11-21
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `fj.kg`
+- `staging.wordsmithmcpcontent.com`
+- `wordsmithmcpcontent.com`
+
 ## [3.1.53] - 2026-11-20
 
 ### Changed
@@ -1764,7 +1780,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.53...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.54...HEAD
+[3.1.54]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.53...3.1.54
 [3.1.53]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...3.1.53
 [3.1.52]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.51...3.1.52
 [3.1.51]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.50...3.1.51
