@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.55] - 2026-11-22
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 0 suffix(es)
+- Removed 1 suffix(es)
+
+### Removed Suffixes
+
+- `xihuan`
+
 ## [3.1.54] - 2026-11-21
 
 ### Changed
@@ -1780,7 +1794,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.54...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.55...HEAD
+[3.1.55]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.54...3.1.55
 [3.1.54]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.53...3.1.54
 [3.1.53]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...3.1.53
 [3.1.52]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.51...3.1.52
