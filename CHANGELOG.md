@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.56] - 2026-11-24
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 3 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `*.airoapp.ai`
+- `*.host.cloud`
+- `sites.aspirethemes.com`
+
 ## [3.1.55] - 2026-11-22
 
 ### Changed
@@ -1794,7 +1810,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.55...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.56...HEAD
+[3.1.56]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.55...3.1.56
 [3.1.55]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.54...3.1.55
 [3.1.54]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.53...3.1.54
 [3.1.53]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.52...3.1.53
