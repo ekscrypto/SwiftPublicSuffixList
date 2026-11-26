@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.58] - 2026-11-26
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 10 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `agric.bw`
+- `entrypages.net`
+- `hostney.app`
+- `hostney.cloud`
+- `infusion-ai.cloud`
+- `me.bw`
+- `mythex.app`
+- `pymaia.app`
+- `shop.bw`
+- `wirechunk.site`
+
 ## [3.1.57] - 2026-11-25
 
 ### Changed
@@ -1843,7 +1866,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.57...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.58...HEAD
+[3.1.58]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.57...3.1.58
 [3.1.57]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.56...3.1.57
 [3.1.56]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.55...3.1.56
 [3.1.55]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.54...3.1.55
