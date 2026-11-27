@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.59] - 2026-11-27
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 16 suffix(es)
+- Removed 1 suffix(es)
+
+### Added Suffixes
+
+- `atoms.world`
+- `bg5.net`
+- `bonto.page`
+- `fs.kg`
+- `fusebase.site`
+- `is-a.si`
+- `phronusercontent.com`
+- `pub.atoms.world`
+- `relumesite.ai`
+- `softr.app`
+- `spheron.live`
+- `staticrun.app`
+- `strw.app`
+- `xport.free`
+- `xport.host`
+- `xport.sh`
+
+### Removed Suffixes
+
+- `leapcell.app`
+
 ## [3.1.58] - 2026-11-26
 
 ### Changed
@@ -1866,7 +1899,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.58...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.59...HEAD
+[3.1.59]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.58...3.1.59
 [3.1.58]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.57...3.1.58
 [3.1.57]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.56...3.1.57
 [3.1.56]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.55...3.1.56
