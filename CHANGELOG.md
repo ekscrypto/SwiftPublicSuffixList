@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.60] - 2026-11-28
+
+### Changed
+- Updated Public Suffix List
+
+### Summary
+
+- Added 5 suffix(es)
+- Removed 0 suffix(es)
+
+### Added Suffixes
+
+- `agental.site`
+- `aiwebinfra.app`
+- `eureka.zone`
+- `lambforge.app`
+- `tnas.online`
+
 ## [3.1.59] - 2026-11-27
 
 ### Changed
@@ -1899,7 +1917,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linux compatibility via FoundationNetworking
 - Utility script for updating embedded Public Suffix List
 
-[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.59...HEAD
+[Unreleased]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.60...HEAD
+[3.1.60]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.59...3.1.60
 [3.1.59]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.58...3.1.59
 [3.1.58]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.57...3.1.58
 [3.1.57]: https://github.com/ekscrypto/SwiftPublicSuffixList/compare/3.1.56...3.1.57
